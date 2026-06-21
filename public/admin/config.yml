@@ -1,0 +1,60 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "src/images"
+public_folder: "/assets"
+
+collections:
+  - name: "places"
+    label: "Visited Places"
+    folder: "src/content/places"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Thumbnail Image", name: "thumbnail", widget: "image" }
+      - { label: "Postcode", name: "postcode", widget: "string" }
+      - { label: "Google Maps Routing URL", name: "google_maps_url", widget: "string" }
+      - { label: "Terrain Type", name: "terrain", widget: "select", options: [
+          { label: "Muddy Woodland Tracks", value: "muddy_woodland" },
+          { label: "Coastal Paths & Sand", value: "coastal_paths" },
+          { label: "Paved Paths & Parks", value: "paved_paths" },
+          { label: "Open Grassy Fields", value: "open_fields" }
+        ] }
+      - { label: "Parking Availability", name: "parking", widget: "select", options: [
+          { label: "Free On-Site", value: "free_onsite" },
+          { label: "Paid Parking", value: "paid_parking" },
+          { label: "Layby Only", value: "layby_only" },
+          { label: "No Dedicated Parking", value: "no_parking" }
+        ] }
+      - { label: "Dog Suitability", name: "dogs", widget: "select", options: [
+          { label: "Highly Dog Friendly", value: "highly_friendly" },
+          { label: "Dogs on Lead Only", value: "lead_only" },
+          { label: "No Dogs Allowed", value: "no_dogs" }
+        ] }
+      - { label: "Star Rating", name: "rating", widget: "select", options: [
+          { label: "1 / 10", value: "1" },
+          { label: "2 / 10", value: "2" },
+          { label: "3 / 10", value: "3" },
+          { label: "4 / 10", value: "4" },
+          { label: "5 / 10", value: "5" },
+          { label: "6 / 10", value: "6" },
+          { label: "7 / 10", value: "7" },
+          { label: "8 / 10", value: "8" },
+          { label: "9 / 10", value: "9" },
+          { label: "10 / 10", value: "10" }
+        ] }
+      - { label: "Primary Category", name: "category", widget: "select", options: [
+          { label: "Outings & Walks", value: "outings" },
+          { label: "Historic Sites", value: "historic" },
+          { label: "Day Trips", value: "day_trips" }
+        ] }
+      - { label: "Filter Tags", name: "tags", widget: "select", multiple: true, options: [
+          { label: "Woodland", value: "woodland" },
+          { label: "Water / River", value: "water" },
+          { label: "Local Essex", value: "local_essex" },
+          { label: "Hilly Terrain", value: "hilly" }
+        ] }
+      - { label: "Article Content", name: "body", widget: "markdown" }
