@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Travel Blog{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <div class="border-b border-gray-100 pb-6">
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Hello Blog</h1>
+        <p class="mt-2 text-lg text-gray-500">Documenting local walks, day trips, and outdoor adventures with pure privacy optimization.</p>
+    </div>
+
+    {% if posts %}
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {% for post in posts %}
+                <article class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+                    {% if post.webp_thumbnail %}
+                        <div class="aspect-video bg-gray-100 relative overflow-hidden">
+                            <img src="{{ post.webp_thumbnail }}" 
+                                 width="{{ post.img_width }}" 
+                                 height="{{ post.img_height }}" 
+                                 alt="{{ post.title }}" 
+                                 class="object-cover w-full h-full"
+                                 loading="lazy">
+                        </div>
+                    {% endif %}
+                    <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-xs font-semibold text-blue-600 tracking-wide uppercase">
+                                <span>{{ post.resolved_category }}</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-900 tracking-tight hover:text-blue-600 transition-colors">
+                                <a href="/places/{{ post.slug }}">{{ post.title }}</a>
+                            </h2>
+                            <p class="text-sm text-gray-500 line-clamp-2">{{ post.description }}</p>
+                        </div>
+                        
+                        <div class="pt-2 border-t border-gray-50 flex items-center justify-between text-xs text-gray-500">
+                            <span>📅 {{ post.date }}</span>
+                            <span class="font-medium px-2 py-0.5 bg-gray-100 rounded-full text-gray-700">{{ post.resolved_terrain }}</span>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-16 border-2 border-dashed border-gray-200 rounded-2xl max-w-md mx-auto">
+            <span class="text-4xl">🪵</span>
+            <h3 class="mt-4 text-sm font-semibold text-gray-900">No places documented yet</h3>
+            <p class="mt-1 text-sm text-gray-500">Get started by creating your first flat-file entry using the admin portal panel.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

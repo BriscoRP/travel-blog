@@ -3,7 +3,7 @@ import re
 import yaml
 import markdown
 from PIL import Image
-from datetime import datetime
+from datetime import datetime, timezone
 from jinja2 import Environment, FileSystemLoader
 
 # --- CONFIGURATION & PATHS ---
@@ -127,9 +127,11 @@ def build_site():
     # Sort items sequentially by explicit publication date
     posts.sort(key=lambda x: str(x.get("date", "")), reverse=True)
 
-    # Render Content Templates cleanly (Tackled completely during Phase 3 Frontend rendering loop)
-    # Placeholder loop verification logging block
-    print(f"Discovered and mapped {len(posts)} total travel place posts.")
+    # Render Content Templates cleanly
+    template = env.get_template("index.html")
+    output = template.render(posts=posts, now=datetime.now(timezone.utc))
+    with open(os.path.join(DIST_DIR, "index.html"), "w", encoding="utf-8") as f:
+        f.write(output)
     
     # --- STATIC SEO COMPILATION ENGINES ---
     # 1. robots.txt
