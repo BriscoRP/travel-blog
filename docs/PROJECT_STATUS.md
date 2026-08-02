@@ -51,31 +51,31 @@ It provides a single source of truth for current progress, active work and the n
 
 ## In Progress
 
-- Preparing Codex onboarding.
+- Preparing Codex onboarding and running the first Codex repository and Constitution review.
 
 ---
 
 ## Next Tasks
 
-1. Create CODEX_BOOTSTRAP.md.
-2. Connect Codex.
-3. Review the Constitution with Codex.
-4. Resolve any clarification questions.
-5. Freeze Constitution Version 1.0 Draft.
-6. Begin Version 1 implementation.
+1. Run Codex's first read-only review.
+2. Resolve Codex clarification questions.
+3. Update documentation where approved.
+4. Freeze Constitution Version 1.0.
+5. Begin Version 1 implementation.
 
 ---
 
 ## Current Repository
 
 travel-blog/
+├── AGENTS.md
 ├── docs/
-│   ├── assets/
 │   ├── PROJECT_VISION.md
 │   ├── SYSTEM_ARCHITECTURE.md
 │   ├── DATA_MODEL.md
 │   ├── CONTENT_WORKFLOW.md
 │   ├── CODEX_RULES.md
+│   ├── CODEX_BOOTSTRAP.md
 │   └── PROJECT_STATUS.md
 ├── dist/
 ├── public/
