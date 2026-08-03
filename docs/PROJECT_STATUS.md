@@ -3,7 +3,7 @@ project: Project Atlas
 repository: travel-blog
 
 document: PROJECT_STATUS.md
-version: 1.0.0
+version: 1.1.0
 status: Active
 
 owner: Rik Powell
@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Constitution Review |
+| Phase | Constitution Revision |
 | Status | In Progress |
-| Objective | Complete the Constitution and prepare Project Atlas for implementation. |
+| Objective | Review the Draft 1.1 Constitution changes before Version 1 architecture planning. |
 
 ---
 
@@ -46,22 +46,28 @@ It provides a single source of truth for current progress, active work and the n
 - Git repository configured.
 - Initial Constitution committed to GitHub.
 - Project documentation structure established.
+- First read-only repository and Constitution review completed.
+- Existing implementation classified as a prototype foundation rather than approved architecture.
+- Initial editorial, privacy, data and publication decisions agreed with Rik.
 
 ---
 
 ## In Progress
 
-- Preparing Codex onboarding and running the first Codex repository and Constitution review.
+- Revising the Constitution documents to Draft 1.1 for Rik's review.
+- Reconciling the prototype foundation with the agreed Project Atlas principles.
 
 ---
 
 ## Next Tasks
 
-1. Run Codex's first read-only review.
-2. Resolve Codex clarification questions.
-3. Update documentation where approved.
-4. Freeze Constitution Version 1.0.
-5. Begin Version 1 implementation.
+1. Review the complete Draft 1.1 documentation diff.
+2. Resolve any remaining documentation contradictions.
+3. Approve or revise the Draft 1.1 Constitution.
+4. Freeze the Constitution as Version 1.0 only after Rik's explicit approval.
+5. Produce the Version 1 architecture and implementation plan.
+6. Review and approve the architecture.
+7. Begin Version 1 implementation.
 
 ---
 
@@ -103,14 +109,18 @@ This file should be updated at the end of every significant development session 
 - Completed the first draft of the Project Atlas Constitution.
 - Completed PROJECT_STATUS.md.
 - Prepared the project for the first Codex review session.
-- Next milestone: Constitution review and implementation planning.
+- Completed the first read-only repository and Constitution review.
+- Agreed that the existing repository is a prototype foundation, not approved architecture.
+- Agreed the Place and Visit relationship, first-hand evidence policy, privacy boundary, international location model, deny-by-default publishing rules and archived Place behaviour.
+- Prepared Draft 1.1 Constitution revisions for Rik's review.
+- Next milestone: review and approve the complete Draft 1.1 documentation diff.
 
 ---
 
 ## Version
 
-Constitution Version: Draft 1.0
+Constitution Version: Draft 1.1
 
-Implementation Status: Not Started
+Implementation Status: Prototype scaffold exists; Version 1 architecture not yet approved
 
-Current Milestone: Constitution Review by Codex
+Current Milestone: Draft 1.1 Documentation Review by Rik

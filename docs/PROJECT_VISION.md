@@ -3,13 +3,13 @@ project: Project Atlas
 repository: travel-blog
 
 document: PROJECT_VISION.md
-version: 1.0.0
+version: 1.1.0
 status: Draft
 
 owner: Rik Powell
 
 created: 2026-08-01
-last_updated: 2026-08-01
+last_updated: 2026-08-02
 
 review_frequency: Quarterly
 codex_maintained: false
@@ -24,6 +24,8 @@ Project Atlas is a long-term AI-assisted travel publishing platform created and 
 Its primary purpose is to preserve and share the real journeys, experiences and memories of the grandparents (M & G) through a fast, accessible and trustworthy travel website.
 
 Every place published has been personally visited. The website is built from genuine notes, photographs and experiences provided by the family, with AI assisting in organising, validating and presenting the information while Rik retains full editorial control.
+
+Project Atlas publishes first-hand observations rather than duplicating information maintained by third parties. Where visitors need official or frequently changing information, the website should direct them to an approved authoritative source instead of presenting copied information as Project Atlas content.
 
 The website is designed to inspire other people to discover new places while creating a lasting digital archive for future generations.
 
@@ -51,6 +53,8 @@ Every technical decision should therefore make publishing simpler, safer and mor
 
 - Every place has been personally visited.
 - Truth before traffic.
+- Publish first-hand experience rather than copied third-party facts.
+- Build long-term trust through factual accuracy, transparency and responsible editorial review.
 - Visitors always come before search engines.
 - Simplicity over complexity.
 - Performance is a feature.

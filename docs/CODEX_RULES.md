@@ -3,7 +3,7 @@ project: Project Atlas
 repository: travel-blog
 
 document: CODEX_RULES.md
-version: 1.0.0
+version: 1.1.0
 status: Draft
 
 owner: Rik Powell
@@ -39,6 +39,10 @@ When working on Project Atlas, Codex must always follow these rules.
 8. Never bypass human editorial approval for published content.
 9. Explain significant architectural or workflow decisions before implementing them.
 10. Keep both code and documentation synchronised. Neither should significantly diverge from the other.
+11. Publish only first-hand family observations and approved editorial content, never copied third-party facts.
+12. Treat publication as deny-by-default.
+13. Protect private original evidence and personal information.
+14. Bind editorial approval to an exact content version.
 
 ## Prohibited Behaviour
 
@@ -51,6 +55,12 @@ When working on Project Atlas, Codex must never:
 - Modify Constitution documents unless specifically requested.
 - Ignore build failures, validation errors or accessibility issues.
 - Publish content without human editorial approval.
+- Copy external facts into Project Atlas merely to complete missing information.
+- Publish an external link without Rik's explicit approval.
+- Store private original evidence in the public Git repository by default.
+- Expose private storage URLs, personal filenames, local paths, contact details, unintended GPS metadata or private storage arrangements.
+- Publish family member identities unless Rik has explicitly approved identification and the person is comfortable being named.
+- Infer publication approval from completeness, location, filename or previous publication.
 
 ## Working Principles
 
@@ -66,6 +76,11 @@ When carrying out work, Codex should:
 - Recommend improvements, but do not implement breaking changes without approval.
 - Preserve backwards compatibility where practical.
 - Assume the project will be maintained for many years.
+- Distinguish prototype choices from approved architecture.
+- Retain an existing technology only when it remains the simplest correct choice under the Constitution.
+- Keep private original evidence, approved derivative publishing assets and generated public assets clearly separated.
+- Use stable opaque identifiers for references to private evidence.
+- Treat time-sensitive observations as dated evidence rather than permanently current facts.
 
 ## Communication Standards
 
@@ -79,6 +94,7 @@ When interacting with Rik, Codex should:
 - Distinguish clearly between facts, assumptions and recommendations.
 - Never claim work has been completed unless it has been verified.
 - Use clear, concise language and avoid unnecessary jargon.
+- Distinguish first-hand observation from official information and editorial interpretation.
 
 ## Stop and Ask
 
@@ -111,6 +127,44 @@ When implementing or modifying Project Atlas, Codex should:
 - Avoid unnecessary JavaScript.
 - Keep dependencies to a minimum.
 - Produce deterministic, repeatable builds from the same source content.
+- Design Places to support one or more Visits, even if Version 1 initially implements one Visit per Place.
+- Exclude Draft and Review records from production.
+- Include Published records only when their approval metadata is valid for the exact content version.
+- Treat missing, unknown and malformed publication states as not approved.
+- Fail clearly when content appears intended for production but lacks required approval metadata.
+- Keep Archived Places out of normal listings while preserving previously published canonical URLs by default.
+- Ensure preview content is protected from indexing and clearly identified as unpublished.
+
+## Evidence and Privacy Rules
+
+The public Git repository is the publishing repository, not the archival repository.
+
+Codex must:
+
+- keep raw photographs, audio, video, messages, personal notes, full transcripts and private documents in Rik's private editorial archive by default
+- place only approved publishing content and approved derivative publishing assets in Git
+- use only stable opaque identifiers when repository content must refer to private evidence
+- ensure only Rik's private editorial archive maps those identifiers to original evidence
+- remove unintended metadata from approved derivative assets before publication
+- exclude internal visitor identities from public output unless explicit approval has been given
+
+Approval metadata should contain approval status, approval date and approved content version. An opaque internal approver identifier may be stored only if required. Unnecessary public personal information must not be recorded.
+
+## External Information Rules
+
+Codex must not copy official or frequently changing information into Project Atlas merely because it is available.
+
+Where visitors need opening times, prices, booking information, temporary closure details or similar official information, Codex should propose a clearly labelled authoritative link for editorial review.
+
+External links must not be published until Rik has explicitly approved them.
+
+## Place and Visit Rules
+
+A Place represents one physical location and owns one canonical public page.
+
+A Visit represents a dated family visit and contains Visit-specific observations, evidence references and approved derivative assets.
+
+Later Visits should normally improve the existing Place page. Material updates require renewed editorial approval and should display an appropriate Public Last Updated date. Time-sensitive observations should display a Visit or Last Verified date using wording approved by Rik.
 
 ## Definition of Success
 
