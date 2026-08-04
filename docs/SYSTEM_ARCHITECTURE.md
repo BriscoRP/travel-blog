@@ -3,13 +3,13 @@ project: Project Atlas
 repository: travel-blog
 
 document: SYSTEM_ARCHITECTURE.md
-version: 1.1.0
-status: Draft
+version: 1.0.0
+status: Active
 
 owner: Rik Powell
 
 created: 2026-08-01
-last_updated: 2026-08-02
+last_updated: 2026-08-04
 
 review_frequency: Quarterly
 codex_maintained: false
