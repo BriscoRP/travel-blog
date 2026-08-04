@@ -9,7 +9,7 @@ status: Active
 owner: Rik Powell
 
 created: 2026-08-02
-last_updated: 2026-08-02
+last_updated: 2026-08-04
 
 updated_every_session: true
 codex_maintained: true
@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Constitution Revision |
+| Phase | Website Shell Review |
 | Status | In Progress |
-| Objective | Review the Draft 1.1 Constitution changes before Version 1 architecture planning. |
+| Objective | Review and approve the Version 1 public website shell before further implementation. |
 
 ---
 
@@ -49,25 +49,31 @@ It provides a single source of truth for current progress, active work and the n
 - First read-only repository and Constitution review completed.
 - Existing implementation classified as a prototype foundation rather than approved architecture.
 - Initial editorial, privacy, data and publication decisions agreed with Rik.
+- Constitution frozen as Version 1.0.
+- Version 1 Architecture Proposal approved.
+- Phase 1 Implementation Plan approved.
+- Version 1 UX and Wireframe Specification approved.
+- Public website shell implemented for Home, Places, About, How We Create Our Guides, Privacy and Accessibility.
+- Shared header, navigation, footer and mobile-first styling implemented.
+- Representative Project Atlas review content added.
+- Representative shell content protected from indexing.
 
 ---
 
 ## In Progress
 
-- Revising the Constitution documents to Draft 1.1 for Rik's review.
-- Reconciling the prototype foundation with the agreed Project Atlas principles.
+- Reviewing the implemented public website shell and representative content.
+- Reviewing responsive behaviour, accessibility and final visual direction.
 
 ---
 
 ## Next Tasks
 
-1. Review the complete Draft 1.1 documentation diff.
-2. Resolve any remaining documentation contradictions.
-3. Approve or revise the Draft 1.1 Constitution.
-4. Freeze the Constitution as Version 1.0 only after Rik's explicit approval.
-5. Produce the Version 1 architecture and implementation plan.
-6. Review and approve the architecture.
-7. Begin Version 1 implementation.
+1. Complete Rik's review of the public website shell.
+2. Apply only approved shell corrections.
+3. Complete responsive and accessibility acceptance checks.
+4. Approve the shell before committing it.
+5. Begin schemas and content-pipeline implementation only after separate approval.
 
 ---
 
@@ -104,23 +110,22 @@ This file should be updated at the end of every significant development session 
 
 ## Latest Update
 
-### 2026-08-02
+### 2026-08-04
 
-- Completed the first draft of the Project Atlas Constitution.
-- Completed PROJECT_STATUS.md.
-- Prepared the project for the first Codex review session.
-- Completed the first read-only repository and Constitution review.
-- Agreed that the existing repository is a prototype foundation, not approved architecture.
-- Agreed the Place and Visit relationship, first-hand evidence policy, privacy boundary, international location model, deny-by-default publishing rules and archived Place behaviour.
-- Prepared Draft 1.1 Constitution revisions for Rik's review.
-- Next milestone: review and approve the complete Draft 1.1 documentation diff.
+- Froze and published the approved Constitution as Version 1.0.
+- Approved the Version 1 architecture, Phase 1 plan, UX proposal and Wireframe Specification.
+- Implemented and built the Version 1 public website shell.
+- Added representative Project Atlas review content and approved empty states.
+- Applied indexing, canonical URL and prototype-capability corrections identified during scope review.
+- Confirmed that schemas and the approved content pipeline have not yet been implemented.
+- Next milestone: review and approve the public website shell.
 
 ---
 
 ## Version
 
-Constitution Version: Draft 1.1
+Constitution Version: 1.0
 
-Implementation Status: Prototype scaffold exists; Version 1 architecture not yet approved
+Implementation Status: Public website shell implemented and under review; schemas and content pipeline not yet implemented
 
-Current Milestone: Draft 1.1 Documentation Review by Rik
+Current Milestone: Version 1 Public Website Shell Review by Rik

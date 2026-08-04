@@ -1,157 +1,275 @@
 import os
+from pathlib import Path
 import re
-import yaml
+import shutil
+
 import markdown
 from PIL import Image
+import yaml
 from datetime import datetime, timezone
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-# --- CONFIGURATION & PATHS ---
-SRC_DIR = "src"
-CONTENT_DIR = os.path.join(SRC_DIR, "content", "places")
-IMAGES_DIR = os.path.join(SRC_DIR, "images")
-TEMPLATE_DIR = os.path.join(SRC_DIR, "templates")
-DIST_DIR = "dist"
-ASSETS_DIR = os.path.join(DIST_DIR, "assets")
 
-SITE_URL = "https://travel-blog-c8n.pages.dev"  # Default Cloudflare Pages Subdomain
+ROOT_DIR = Path(__file__).parent
+CONTENT_DIR = ROOT_DIR / "src" / "content" / "places"
+IMAGE_DIR = ROOT_DIR / "src" / "images"
+TEMPLATE_DIR = ROOT_DIR / "src" / "templates"
+STYLE_DIR = ROOT_DIR / "src" / "styles"
+DIST_DIR = ROOT_DIR / "dist"
+ASSET_DIR = DIST_DIR / "assets"
 
-# Defensive string remapping / Fallback Logic
+SITE_NAME = "Project Atlas"
+SITE_URL = os.environ.get("ATLAS_SITE_URL", "").rstrip("/")
+
 FALLBACK_MAPS = {
     "terrain": {
         "muddy_woodland": "Muddy Woodland Tracks",
         "coastal_paths": "Coastal Paths & Sand",
         "paved_paths": "Paved Paths & Parks",
-        "open_fields": "Open Grassy Fields"
+        "open_fields": "Open Grassy Fields",
     },
     "parking": {
         "free_onsite": "Free On-Site",
         "paid_parking": "Paid Parking",
         "layby_only": "Layby Only",
-        "no_parking": "No Dedicated Parking"
+        "no_parking": "No Dedicated Parking",
     },
     "dogs": {
         "highly_friendly": "Highly Dog Friendly",
         "lead_only": "Dogs on Lead Only",
-        "no_dogs": "No Dogs Allowed"
+        "no_dogs": "No Dogs Allowed",
     },
     "category": {
         "outings": "Outings & Walks",
         "historic": "Historic Sites",
-        "day_trips": "Day Trips"
+        "day_trips": "Day Trips",
     },
     "tags": {
         "woodland": "Woodland",
         "water": "Water / River",
         "local_essex": "Local Essex",
-        "hilly": "Hilly Terrain"
-    }
+        "hilly": "Hilly Terrain",
+    },
 }
 
+PAGES = (
+    {
+        "template": "index.html",
+        "output": "index.html",
+        "current": "home",
+        "title": "Project Atlas | Genuine family travel experiences",
+        "description": (
+            "Project Atlas preserves and shares genuine family travel experiences "
+            "through carefully reviewed, first-hand guides."
+        ),
+        "path": "/",
+        "robots": "noindex, nofollow",
+        "include_in_sitemap": False,
+    },
+    {
+        "template": "places.html",
+        "output": "places/index.html",
+        "current": "places",
+        "title": "Places | Project Atlas",
+        "description": (
+            "The Project Atlas collection is being carefully prepared. "
+            "No Place guides are currently published."
+        ),
+        "path": "/places/",
+        "robots": "noindex, nofollow",
+        "include_in_sitemap": False,
+    },
+    {
+        "template": "about.html",
+        "output": "about/index.html",
+        "current": "about",
+        "title": "About Project Atlas",
+        "description": (
+            "Learn why Project Atlas preserves genuine family journeys and how "
+            "human editorial review keeps every published guide trustworthy."
+        ),
+        "path": "/about/",
+        "robots": "noindex, nofollow",
+        "include_in_sitemap": False,
+    },
+    {
+        "template": "guides.html",
+        "output": "how-we-create-our-guides/index.html",
+        "current": "",
+        "title": "How We Create Our Guides | Project Atlas",
+        "description": (
+            "See how genuine family visits, responsible AI assistance and human "
+            "editorial review shape every Project Atlas guide."
+        ),
+        "path": "/how-we-create-our-guides/",
+        "robots": "noindex, nofollow",
+        "include_in_sitemap": False,
+    },
+    {
+        "template": "privacy.html",
+        "output": "privacy/index.html",
+        "current": "",
+        "title": "Privacy | Project Atlas",
+        "description": (
+            "Read how the Project Atlas public website protects visitor privacy "
+            "and keeps private family evidence separate."
+        ),
+        "path": "/privacy/",
+        "robots": "noindex, nofollow",
+        "include_in_sitemap": False,
+    },
+    {
+        "template": "accessibility.html",
+        "output": "accessibility/index.html",
+        "current": "",
+        "title": "Accessibility | Project Atlas",
+        "description": (
+            "Read about the Project Atlas commitment to a clear, inclusive and "
+            "accessible visitor experience."
+        ),
+        "path": "/accessibility/",
+        "robots": "noindex, nofollow",
+        "include_in_sitemap": False,
+    },
+)
+
+
 def resolve_value(field, key):
-    """Safely returns the human-readable string for any given database key."""
+    """Return the prototype's human-readable label for a stored key."""
     if field in FALLBACK_MAPS and key in FALLBACK_MAPS[field]:
         return FALLBACK_MAPS[field][key]
     return str(key).replace("_", " ").title()
 
-def process_image(img_filename):
-    """Processes raw JPEGs into stripped, optimized WebP files and returns dimensions to prevent CLS."""
-    src_path = os.path.join(IMAGES_DIR, img_filename)
-    dest_filename = os.path.splitext(img_filename)[0] + ".webp"
-    dest_path = os.path.join(ASSETS_DIR, dest_filename)
-    
-    if not os.path.exists(src_path):
-        print(f"Warning: Source image {img_filename} not found.")
-        return f"/assets/{dest_filename}", 800, 600  # Safe safety defaults
-        
+
+def process_image(image_filename):
+    """Create the prototype's metadata-stripped WebP derivative."""
+    source = IMAGE_DIR / image_filename
+    destination_name = f"{source.stem}.webp"
+    destination = ASSET_DIR / destination_name
+
+    if not source.exists():
+        print(f"Warning: Source image {image_filename} not found.")
+        return f"/assets/{destination_name}", 800, 600
+
     try:
-        with Image.open(src_path) as img:
-            width, height = img.size
-            # Overwrite metadata by rebuilding file data completely (Strips EXIF strings)
-            clean_img = Image.new(img.mode, img.size)
-            clean_img.putdata(img.getdata())
-            
-            # Save format optimization at strict 82% quality constraint
-            clean_img.save(dest_path, "WEBP", quality=82)
-            print(f"Optimized Image: {dest_filename} ({width}x{height}) EXIF completely stripped.")
-            return f"/assets/{dest_filename}", width, height
-    except Exception as e:
-        print(f"Error processing image {img_filename}: {e}")
-        return f"/assets/{dest_filename}", 800, 600
+        with Image.open(source) as image:
+            width, height = image.size
+            clean_image = Image.new(image.mode, image.size)
+            clean_image.putdata(image.getdata())
+            clean_image.save(destination, "WEBP", quality=82)
+            print(
+                f"Optimized Image: {destination_name} "
+                f"({width}x{height}) EXIF completely stripped."
+            )
+            return f"/assets/{destination_name}", width, height
+    except Exception as error:
+        print(f"Error processing image {image_filename}: {error}")
+        return f"/assets/{destination_name}", 800, 600
+
+
+def load_prototype_posts():
+    """Load the existing prototype content format when content is present."""
+    posts = []
+    if not CONTENT_DIR.exists():
+        return posts
+
+    for file_path in sorted(CONTENT_DIR.glob("*.md")):
+        content_text = file_path.read_text(encoding="utf-8")
+        match = re.match(
+            r"^---\s*\n(.*?)\n---\s*\n(.*)$",
+            content_text,
+            re.DOTALL,
+        )
+        if not match:
+            continue
+
+        metadata = yaml.safe_load(match.group(1)) or {}
+        metadata["resolved_terrain"] = resolve_value(
+            "terrain", metadata.get("terrain")
+        )
+        metadata["resolved_parking"] = resolve_value(
+            "parking", metadata.get("parking")
+        )
+        metadata["resolved_dogs"] = resolve_value("dogs", metadata.get("dogs"))
+        metadata["resolved_category"] = resolve_value(
+            "category", metadata.get("category")
+        )
+        metadata["resolved_tags"] = [
+            resolve_value("tags", tag) for tag in metadata.get("tags", [])
+        ]
+        metadata["slug"] = file_path.stem
+        metadata["body"] = markdown.markdown(match.group(2))
+
+        if metadata.get("thumbnail"):
+            image_file = Path(metadata["thumbnail"]).name
+            image_url, width, height = process_image(image_file)
+            metadata["webp_thumbnail"] = image_url
+            metadata["img_width"] = width
+            metadata["img_height"] = height
+
+        posts.append(metadata)
+
+    posts.sort(key=lambda item: str(item.get("date", "")), reverse=True)
+    return posts
+
+
+def render_pages(environment, posts):
+    for page in PAGES:
+        destination = DIST_DIR / page["output"]
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        template = environment.get_template(page["template"])
+        destination.write_text(
+            template.render(
+                site_name=SITE_NAME,
+                canonical=f"{SITE_URL}{page['path']}" if SITE_URL else "",
+                posts=posts,
+                now=datetime.now(timezone.utc),
+                **page,
+            ),
+            encoding="utf-8",
+        )
+
+
+def copy_assets():
+    ASSET_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(STYLE_DIR / "site.css", ASSET_DIR / "site.css")
+
+
+def write_robots():
+    (DIST_DIR / "robots.txt").write_text(
+        "User-agent: *\nDisallow: /\n",
+        encoding="utf-8",
+    )
+
+
+def write_sitemap():
+    urls = "\n".join(
+        f"  <url><loc>{SITE_URL}{page['path']}</loc></url>"
+        for page in PAGES
+        if page["include_in_sitemap"] and SITE_URL
+    )
+    sitemap = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{urls}\n"
+        "</urlset>\n"
+    )
+    (DIST_DIR / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+
 
 def build_site():
-    print("Starting site compilation pipeline...")
-    os.makedirs(ASSETS_DIR, exist_ok=True)
-    
-    # Initialize Template Environments
-    env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
-    
-    # Database flat-file parsing array
-    posts = []
-    
-    if os.path.exists(CONTENT_DIR):
-        for file in os.listdir(CONTENT_DIR):
-            if file.endswith(".md"):
-                file_path = os.path.join(CONTENT_DIR, file)
-                with open(file_path, "r", encoding="utf-8") as f:
-                    content_text = f.read()
-                    
-                # Split YAML from markdown body parsing blocks
-                match = re.match(r"^---\s*\n(.*?)\n---\s*\n(.*)$", content_text, re.DOTALL)
-                if match:
-                    frontmatter_raw = match.group(1)
-                    body_markdown = match.group(2)
-                    
-                    meta = yaml.safe_load(frontmatter_raw) or {}
-                    html_content = markdown.markdown(body_markdown)
-                    
-                    # Resolve safe metadata fallback structures
-                    meta["resolved_terrain"] = resolve_value("terrain", meta.get("terrain"))
-                    meta["resolved_parking"] = resolve_value("parking", meta.get("parking"))
-                    meta["resolved_dogs"] = resolve_value("dogs", meta.get("dogs"))
-                    meta["resolved_category"] = resolve_value("category", meta.get("category"))
-                    meta["resolved_tags"] = [resolve_value("tags", t) for t in meta.get("tags", [])]
-                    meta["slug"] = os.path.splitext(file)[0]
-                    meta["body"] = html_content
-                    
-                    # Convert raw thumbnail format properties cleanly
-                    if "thumbnail" in meta and meta["thumbnail"]:
-                        img_file = os.path.basename(meta["thumbnail"])
-                        webp_url, w, h = process_image(img_file)
-                        meta["webp_thumbnail"] = webp_url
-                        meta["img_width"] = w
-                        meta["img_height"] = h
-                    
-                    posts.append(meta)
+    environment = Environment(
+        loader=FileSystemLoader(TEMPLATE_DIR),
+        autoescape=select_autoescape(("html", "xml")),
+        keep_trailing_newline=True,
+    )
+    copy_assets()
+    posts = load_prototype_posts()
+    render_pages(environment, posts)
+    write_robots()
+    write_sitemap()
+    print(f"Built {len(PAGES)} public pages in {DIST_DIR}.")
 
-    # Sort items sequentially by explicit publication date
-    posts.sort(key=lambda x: str(x.get("date", "")), reverse=True)
-
-    # Render Content Templates cleanly
-    template = env.get_template("index.html")
-    output = template.render(posts=posts, now=datetime.now(timezone.utc))
-    with open(os.path.join(DIST_DIR, "index.html"), "w", encoding="utf-8") as f:
-        f.write(output)
-    
-    # --- STATIC SEO COMPILATION ENGINES ---
-    # 1. robots.txt
-    with open(os.path.join(DIST_DIR, "robots.txt"), "w", encoding="utf-8") as f:
-        f.write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml")
-    print("SEO Engine: robots.txt written seamlessly.")
-        
-    # 2. sitemap.xml
-    sitemap_xml = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    sitemap_xml += f'  <url>\n    <loc>{SITE_URL}/</loc>\n    <priority>1.0</priority>\n  </url>\n'
-    sitemap_xml += f'  <url>\n    <loc>{SITE_URL}/about</loc>\n    <priority>0.5</priority>\n  </url>\n'
-    sitemap_xml += f'  <url>\n    <loc>{SITE_URL}/places</loc>\n    <priority>0.8</priority>\n  </url>\n'
-    
-    for p in posts:
-        sitemap_xml += f'  <url>\n    <loc>{SITE_URL}/places/{p["slug"]}</loc>\n    <priority>0.7</priority>\n  </url>\n'
-        
-    sitemap_xml += "</urlset>"
-    with open(os.path.join(DIST_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
-        f.write(sitemap_xml)
-    print("SEO Engine: sitemap.xml dynamically parsed and compiled successfully.")
 
 if __name__ == "__main__":
     build_site()

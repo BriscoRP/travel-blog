@@ -1,4 +1,2 @@
 User-agent: *
-Allow: /
-
-Sitemap: https://travel-blog-c8n.pages.dev/sitemap.xml
+Disallow: /

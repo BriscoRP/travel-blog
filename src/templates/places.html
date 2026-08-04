@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-hero">
+    <div class="shell narrow">
+        <p class="eyebrow">The collection</p>
+        <h1>Places</h1>
+        <p class="lead">This will be the home of carefully reviewed guides to places our family has genuinely visited.</p>
+    </div>
+</header>
+
+<section class="section compact-top" aria-labelledby="empty-heading">
+    <div class="shell narrow">
+        <div class="empty-state">
+            <span class="empty-mark" aria-hidden="true">01</span>
+            <h2 id="empty-heading">No Place stories are published yet.</h2>
+            <p>The first stories are being carefully prepared and reviewed. We will only add a guide when its content and approved assets are ready to share.</p>
+            <div class="actions actions-centred">
+                <a class="button button-primary" href="/">Return home</a>
+                <a class="button button-secondary" href="/how-we-create-our-guides/">How we create our guides</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<aside class="section section-tinted trust-reminder" aria-label="Publishing commitment">
+    <div class="shell narrow">
+        <p><strong>Our publishing commitment:</strong> every Place published here will have been personally visited and approved before publication.</p>
+    </div>
+</aside>
+{% endblock %}

@@ -1,1 +1,75 @@
-google/gemini-2.5-flash:free
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="shell hero-inner">
+        <p class="eyebrow">A family travel archive</p>
+        <h1>Genuine family journeys, carefully shared.</h1>
+        <p class="hero-copy">Project Atlas preserves first-hand memories and observations from places our family has genuinely visited. Every public guide is reviewed before it is shared.</p>
+        <div class="actions">
+            <a class="button button-primary" href="/places/">Explore Places</a>
+            <a class="button button-secondary" href="/about/">About Project Atlas</a>
+        </div>
+    </div>
+</section>
+
+<section class="section section-tinted" aria-labelledby="collection-heading">
+    <div class="shell narrow">
+        <p class="eyebrow">The collection</p>
+        <h2 id="collection-heading">Our first Place stories are being prepared.</h2>
+        <p>No guides are published yet. We are taking the time to organise genuine family material, check every detail and review each story before it appears here.</p>
+        <a class="text-link" href="/about/">Learn about Project Atlas <span aria-hidden="true">→</span></a>
+    </div>
+</section>
+
+<section class="section" aria-labelledby="archive-heading">
+    <div class="shell split">
+        <div>
+            <p class="eyebrow">What Project Atlas is</p>
+            <h2 id="archive-heading">A lasting home for real journeys.</h2>
+        </div>
+        <div class="prose">
+            <p>Project Atlas is a small, static family travel website built to preserve memories and share useful first-hand experience.</p>
+            <p>It is not a booking service or a review platform. When information changes frequently, we direct visitors to an approved authoritative source instead of presenting copied details as our own.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section section-dark" aria-labelledby="trust-heading">
+    <div class="shell">
+        <p class="eyebrow eyebrow-light">Our principles</p>
+        <h2 id="trust-heading">Why you can trust Project Atlas.</h2>
+        <ul class="trust-grid">
+            <li><strong>Personally visited</strong><span>Every published Place begins with a genuine family visit.</span></li>
+            <li><strong>No invented facts</strong><span>Uncertain information is flagged for review, never guessed.</span></li>
+            <li><strong>Human approval</strong><span>Rik reviews every exact content version before publication.</span></li>
+            <li><strong>Dated observations</strong><span>Details that may change are tied to a Visit or verification date.</span></li>
+            <li><strong>Privacy by default</strong><span>Private family evidence and identities stay outside the public website.</span></li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" aria-labelledby="process-heading">
+    <div class="shell">
+        <p class="eyebrow">A careful process</p>
+        <h2 id="process-heading">How our guides are created.</h2>
+        <ol class="process-list">
+            <li><span>1</span><strong>Family experience</strong><small>Real visits, memories and observations.</small></li>
+            <li><span>2</span><strong>Careful preparation</strong><small>Material is organised without adding facts.</small></li>
+            <li><span>3</span><strong>Editorial review</strong><small>Content, assets and links are checked.</small></li>
+            <li><span>4</span><strong>Publication</strong><small>Only the approved version reaches the public site.</small></li>
+        </ol>
+        <a class="text-link" href="/how-we-create-our-guides/">How We Create Our Guides <span aria-hidden="true">→</span></a>
+    </div>
+</section>
+
+<section class="section section-accent" aria-labelledby="story-heading">
+    <div class="shell callout">
+        <div>
+            <p class="eyebrow">The story behind the site</p>
+            <h2 id="story-heading">Built to preserve memories for years to come.</h2>
+        </div>
+        <a class="button button-secondary" href="/about/">Read about Project Atlas</a>
+    </div>
+</section>
+{% endblock %}

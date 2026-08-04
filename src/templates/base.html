@@ -1,32 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-GB">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Travel Blog{% endblock %}</title>
-    <script src="https://cdn.jsdelivr.net/cdn.tailwindcss.com/3.4.1"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="robots" content="{{ robots }}">
+{% if canonical %}    <link rel="canonical" href="{{ canonical }}">{% endif %}
+    <link rel="stylesheet" href="/assets/site.css">
 </head>
-<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+<body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <header class="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="/" class="text-xl font-bold tracking-tight text-gray-900">🗺️ Travel Blog</a>
-            <nav class="flex items-center gap-6">
-                <a href="/" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Home</a>
-                <a href="/admin/" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Admin Portal</a>
+    <div class="preview-notice" role="note">
+        Website shell preview — representative Project Atlas content for review. No Places are currently published.
+    </div>
+
+    <header class="site-header">
+        <div class="shell header-inner">
+            <a class="site-name" href="/" aria-label="Project Atlas home">
+                <span class="site-mark" aria-hidden="true">PA</span>
+                <span>Project Atlas</span>
+            </a>
+            <nav aria-label="Primary navigation">
+                <ul class="nav-list">
+                    <li><a href="/"{{ ' aria-current="page"'|safe if current == 'home' else '' }}>Home</a></li>
+                    <li><a href="/places/"{{ ' aria-current="page"'|safe if current == 'places' else '' }}>Places</a></li>
+                    <li><a href="/about/"{{ ' aria-current="page"'|safe if current == 'about' else '' }}>About</a></li>
+                </ul>
             </nav>
         </div>
     </header>
 
-    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8">
-        {% block content %}{% endblock %}
+    <main id="main-content">
+{% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-white border-t border-gray-100 py-6 mt-12">
-        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-gray-500">
-            <p>&copy; {{ now.year if now else 2026 }} Travel Blog. Built entirely serverless.</p>
+    <footer class="site-footer">
+        <div class="shell footer-grid">
+            <div>
+                <a class="footer-name" href="/">Project Atlas</a>
+                <p>Genuine family travel experiences, carefully shared.</p>
+            </div>
+            <nav aria-label="Information">
+                <ul class="footer-links">
+                    <li><a href="/how-we-create-our-guides/">How We Create Our Guides</a></li>
+                    <li><a href="/privacy/">Privacy</a></li>
+                    <li><a href="/accessibility/">Accessibility</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="shell footer-base">
+            <p>&copy; 2026 Project Atlas.</p>
         </div>
     </footer>
-
 </body>
 </html>
