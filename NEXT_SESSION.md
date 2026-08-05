@@ -14,23 +14,35 @@
 - The public website shell is implemented; its final copy, visual direction and
   accessibility acceptance remain separate outstanding work.
 - The Visit Capture Workflow is approved as the working design.
-- Milestone 2 Visit Capture Foundation Tasks 1–4 are implemented and approved.
-- No further implementation milestone is authorised.
+- Milestone 2 Visit Capture Foundation Tasks 1–4 are implemented, approved,
+  committed and pushed.
+- `Atlas Test V1` has completed two end-to-end manual submissions.
+- `Atlas Test V1` is frozen for the first family pilot.
 
-## What was completed
+## Atlas Test V1 outcome
 
-- Defined the minimum Version 1 Visit record contract.
-- Implemented storage-independent Visit operations behind the `VisitStore`
-  interface.
-- Implemented the local YAML storage adapter.
-- Implemented the minimal maintainer commands to create, show, validate and add
-  evidence references to one Visit.
-- Verified that a Visit remains a living `Open` record as evidence is added over
-  time.
-- Added automated coverage using fictional data and temporary storage.
-- Passed all 12 automated tests and the new-file whitespace checks.
-- Kept Google Drive, evidence-file handling, AI drafting, staging, publishing,
-  Place pages, contributor interfaces and web forms out of the implementation.
+The manual Google Forms prototype demonstrated that:
+
+- The contributor workflow is simple and suitable for the first family pilot.
+- The form captures the Place name, location context, private visitor identity,
+  Visit date, first-hand observations, advice and optional facility details.
+- Photos and videos can be uploaded privately to Google Drive.
+- The response spreadsheet contains private links to uploaded evidence.
+- Contributors are not asked for internal identifiers, approval metadata,
+  publication settings or technical publishing information.
+
+`Atlas Test V1` remains an exploratory contributor prototype. It is not part of
+the implemented Visit Capture Foundation and is not an approved final
+contributor interface.
+
+## Completed implementation
+
+- Minimum Version 1 Visit record contract.
+- Storage-independent Visit operations behind the `VisitStore` interface.
+- Local YAML storage adapter.
+- Maintainer commands to create, show, validate and add evidence references.
+- Automated tests using fictional data and temporary storage.
+- Living `Open` Visit behaviour with incremental opaque evidence references.
 
 ## Decisions now approved
 
@@ -42,68 +54,71 @@
   publishing rules.
 - Visit Capture Workflow as the working lifecycle design.
 - Milestone 2 Tasks 1–4 implementation.
-- `VisitStore` as the storage boundary for structured Visit records.
+- `VisitStore` as the structured Visit-record storage boundary.
 - A Visit remains `Open` until a future explicitly authorised readiness
   transition is implemented.
+- `Atlas Test V1` question set is frozen for the first family pilot.
 
-## Next planned activity
+## Next objective
 
-Create a manual Google Forms prototype named `Atlas Test V1` to validate the
-family contributor workflow, particularly the experience on iPhones.
+Design and implement the Google Forms Importer that converts a completed
+`Atlas Test V1` submission into an `Open` Visit using the existing Visit Capture
+Foundation.
 
-`Atlas Test V1` is exploratory. It is not part of the implemented Visit Capture
-Foundation, is not a Google Drive adapter, and must not be treated as an
-approved production contributor interface.
+The importer should:
 
-The prototype should be used to learn:
+- Translate the completed response into the minimum Visit contract.
+- Assign or use opaque Visit, Place, contributor and evidence identifiers.
+- Register the form response and uploaded media as opaque evidence references.
+- Keep Google account details, spreadsheet links, Drive identifiers, filenames
+  and private evidence outside public Git.
+- Be idempotent so the same submission cannot create duplicate Visits or
+  evidence references.
+- Stop with a clear error when required information is absent or ambiguous.
+- Create only an `Open` Visit.
 
-- Whether family contributors understand the questions.
-- Whether the amount of required information is reasonable.
-- Whether photos, videos, notes and audio can be contributed naturally at
-  different times.
-- Which questions should be mandatory or optional.
-- Where contributors hesitate, abandon or provide ambiguous information.
-- What should change before any contributor workflow is integrated with the
-  repository or Visit Capture Foundation.
+Google authentication, private evidence retrieval and provider-specific file
+handling must remain behind explicit private boundaries. AI drafting,
+Ready for Review, staging and publication remain out of scope.
 
 ## Decisions still outstanding
 
-- The exact questions and structure for `Atlas Test V1`.
-- Who will participate in the prototype and what fictional or genuine test
-  material is appropriate.
-- How repeated submissions or later additions should be represented during the
-  manual experiment.
-- Whether and how a future Google Drive adapter should be implemented.
+- The exact importer input boundary: exported row, spreadsheet access or
+  another authorised source.
+- How private Google response and file identifiers are mapped to opaque Project
+  Atlas identifiers.
+- How private visitor names are mapped to opaque contributor identifiers.
+- How a submitted location is matched to an existing Place or assigned a new
+  opaque Place identity.
+- Whether structured Visit persistence and Drive evidence access require
+  separate adapters.
+- Credential storage and least-privilege access.
+- Retry, duplicate and partial-failure behaviour.
 - The future `Ready for Review` transition and evidence-snapshot behaviour.
 - AI-assisted draft creation and its evidence-access boundary.
-- Final review and approval of the public website shell and representative copy.
-- Final public copy, canonical domain, public contact routes and `dist/` policy.
+- Final review of the public website shell, final public copy, canonical domain,
+  public contact routes and `dist/` policy.
 
 ## Current repository status
 
 - Branch: `main`.
-- `main` matches `origin/main`.
-- The approved Visit Capture Foundation is present as untracked files.
-- `docs/PROJECT_STATUS.md` and `NEXT_SESSION.md` contain uncommitted
-  documentation updates.
-- No Constitution or public website files were changed in this milestone.
-- No commit or push has been made.
-
-## Immediate next objective
-
-Obtain Rik's review of the complete Visit Capture Foundation and documentation
-diff. After any explicitly authorised commit, prepare the manual `Atlas Test V1`
-prototype without extending the repository implementation.
+- The Visit Capture Foundation is committed and present on `origin/main`.
+- `docs/PROJECT_STATUS.md` and `NEXT_SESSION.md` contain the current uncommitted
+  documentation update.
+- No Constitution, public website or implementation files were changed.
+- No commit or push has been made for this documentation update.
 
 ## Next session plan
 
 1. Read `AGENTS.md`, the bootstrap, project status, Constitution and this
    handover.
-2. Confirm the branch and review the complete uncommitted diff.
-3. Commit only if Rik explicitly authorises it.
-4. Agree the minimum learning goals and questions for `Atlas Test V1`.
-5. Build the prototype manually in Google Forms rather than in the repository.
-6. Test the contributor experience on an iPhone.
-7. Record findings without treating the prototype as approved architecture.
-8. Ask Rik whether the working design or Visit contract should change.
-9. Propose further implementation only after separate approval.
+2. Confirm Git status and review the documentation diff.
+3. Inspect the authorised `Atlas Test V1` response structure without copying
+   private evidence into Git.
+4. Produce the minimum Google Forms Importer design and implementation plan.
+5. Resolve importer-boundary and identifier-mapping decisions with Rik.
+6. Wait for approval before implementation.
+7. Implement only the approved importer slice using fictional automated test
+   data.
+8. Verify that the result is an `Open` Visit with private provider details kept
+   outside public Git.

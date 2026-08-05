@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Family Contributor Workflow Validation |
-| Status | Visit Capture Foundation approved; exploratory prototype planned |
-| Objective | Validate the family contributor experience with a manual Google Forms prototype before extending the implemented foundation. |
+| Phase | Google Forms Importer |
+| Status | Atlas Test V1 completed and frozen; importer design next |
+| Objective | Design and implement an importer that converts a completed Google Form submission into an `Open` Visit using the existing Visit Capture Foundation. |
 
 ---
 
@@ -64,6 +64,13 @@ It provides a single source of truth for current progress, active work and the n
 - Minimal maintainer command interface implemented.
 - Visit Capture Foundation automated tests implemented and passing.
 - Milestone 2 Tasks 1–4 reviewed and approved by Rik.
+- Visit Capture Foundation committed and pushed to `origin/main`.
+- `Atlas Test V1` completed as an exploratory contributor prototype.
+- Two end-to-end manual submissions used to inspect the contributor experience
+  and captured data.
+- Required location context and private visitor identity added after the first
+  test.
+- `Atlas Test V1` frozen for the first family pilot.
 
 ---
 
@@ -71,22 +78,28 @@ It provides a single source of truth for current progress, active work and the n
 
 - The Visit Capture Foundation supports creating one living `Open` Visit and adding opaque evidence references over time.
 - The foundation contains no Google Drive integration, AI drafting, staging, publication or contributor interface.
-- The approved implementation remains uncommitted pending Rik's review of the documentation update.
-- No further implementation milestone is authorised.
+- `Atlas Test V1` is sufficiently aligned with the Constitution, Version 1
+  Architecture, Visit Capture Workflow and Visit Capture Foundation for the
+  first family pilot.
+- The manual prototype remains separate from the implemented foundation.
+- The next implementation milestone is the Google Forms Importer.
 
 ---
 
 ## Next Tasks
 
-1. Review the Visit Capture Foundation and documentation diff.
-2. Commit the approved foundation only after Rik explicitly authorises it.
-3. Create `Atlas Test V1` manually in Google Forms as an exploratory prototype.
-4. Use the prototype to validate the family contributor workflow, particularly on iPhones.
-5. Record findings and obtain Rik's approval before proposing any integration or further implementation.
+1. Define the minimum Google Forms Importer contract and privacy boundaries.
+2. Map a completed form response to one `Open` Visit and opaque evidence
+   references.
+3. Define how private Google identifiers, spreadsheet links, filenames and
+   contributor identities remain outside public Git.
+4. Design idempotency, duplicate handling, ambiguous-record handling and clear
+   failure behaviour.
+5. Obtain Rik's approval for the importer implementation plan.
+6. Implement and test the smallest working importer slice using fictional data.
 
-`Atlas Test V1` is an exploratory manual prototype. It is not part of the
-implemented Visit Capture Foundation and must not be treated as a Google Drive
-adapter, contributor interface or production workflow.
+The importer must create only an `Open` Visit. AI drafting, readiness,
+editorial approval, staging and publication remain out of scope.
 
 ---
 
@@ -140,6 +153,13 @@ This file should be updated at the end of every significant development session 
 - Rik approved Milestone 2 Tasks 1–4.
 - Set the next planned activity as the manual `Atlas Test V1` Google Forms
   prototype to validate the family contributor workflow.
+- Completed two end-to-end `Atlas Test V1` submissions.
+- Confirmed that the form is simple enough for the first family pilot and
+  captures the minimum destination, location, private visitor, date,
+  observation and optional-media context.
+- Froze `Atlas Test V1` for the first family pilot.
+- Set the next objective as designing and implementing the Google Forms
+  Importer using the existing Visit Capture Foundation.
 
 ---
 
@@ -147,6 +167,6 @@ This file should be updated at the end of every significant development session 
 
 Constitution Version: 1.0
 
-Implementation Status: Public website shell implemented; Visit Capture Foundation Tasks 1–4 implemented and approved; complete content pipeline not yet implemented
+Implementation Status: Public website shell and Visit Capture Foundation implemented; Atlas Test V1 exploratory prototype completed and frozen; Google Forms Importer not yet implemented
 
-Current Milestone: Family Contributor Workflow Validation through the exploratory Atlas Test V1 prototype
+Current Milestone: Google Forms Importer design and implementation
