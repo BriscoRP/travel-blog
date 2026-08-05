@@ -1,0 +1,98 @@
+schema_version: "1.0"
+title: Project Atlas Visit Capture Foundation record
+status: working
+purpose: >
+  Defines the minimum private working record for one living Visit. This
+  contract does not grant editorial approval and has no publication behaviour.
+
+record:
+  required:
+    - schema_version
+    - record_version
+    - visit_id
+    - place_id
+    - visit_date
+    - visit_date_precision
+    - state
+    - contributor_ids
+    - evidence
+    - created_at
+    - last_modified_at
+  fields:
+    schema_version:
+      type: string
+      allowed: ["1.0"]
+    record_version:
+      type: integer
+      minimum: 1
+      description: Increments after every successful change.
+    visit_id:
+      type: opaque_identifier
+      prefix: VIS-
+    place_id:
+      type: opaque_identifier
+      prefix: PLC-
+      description: >
+        Links the Visit to a stable Place identity. This milestone does not
+        create or publish a Place.
+    visit_date:
+      type: string
+      description: ISO date at the precision declared by visit_date_precision.
+    visit_date_precision:
+      type: string
+      allowed: [day, month, year]
+    state:
+      type: string
+      allowed: [Open]
+      description: >
+        A Visit remains a living Open record throughout this milestone.
+        Readiness, approval and publication states are out of scope.
+    contributor_ids:
+      type: list
+      minimum_items: 1
+      item_type: opaque_identifier
+      item_prefix: CTR-
+      description: Private-by-default identifiers with no names or contact data.
+    evidence:
+      type: list
+      item_contract: evidence_item
+    created_at:
+      type: utc_timestamp
+    last_modified_at:
+      type: utc_timestamp
+
+evidence_item:
+  required:
+    - evidence_id
+    - evidence_type
+    - added_at
+    - uncertain
+  fields:
+    evidence_id:
+      type: opaque_identifier
+      prefix: EVD-
+    evidence_type:
+      type: string
+      allowed: [photo, video, audio, note]
+    added_at:
+      type: utc_timestamp
+    captured_on:
+      type: string
+      optional: true
+      description: Optional ISO calendar date; no device metadata is inferred.
+    description:
+      type: string
+      optional: true
+      description: Optional non-sensitive editorial description.
+    uncertain:
+      type: boolean
+
+privacy_constraints:
+  prohibited:
+    - raw evidence content
+    - storage URLs
+    - local file paths
+    - personal filenames
+    - contributor names
+    - contact details
+    - unintended GPS or device metadata

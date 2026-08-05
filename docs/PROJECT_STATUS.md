@@ -9,7 +9,7 @@ status: Active
 owner: Rik Powell
 
 created: 2026-08-02
-last_updated: 2026-08-04
+last_updated: 2026-08-05
 
 updated_every_session: true
 codex_maintained: true
@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Website Shell Review |
-| Status | In Progress |
-| Objective | Review and approve the Version 1 public website shell before further implementation. |
+| Phase | Family Contributor Workflow Validation |
+| Status | Visit Capture Foundation approved; exploratory prototype planned |
+| Objective | Validate the family contributor experience with a manual Google Forms prototype before extending the implemented foundation. |
 
 ---
 
@@ -57,23 +57,36 @@ It provides a single source of truth for current progress, active work and the n
 - Shared header, navigation, footer and mobile-first styling implemented.
 - Representative Project Atlas review content added.
 - Representative shell content protected from indexing.
+- Visit Capture Workflow approved as the working design.
+- Milestone 2 Visit Capture Foundation implementation plan approved.
+- Minimum Visit record contract implemented.
+- Storage-independent Visit operations and local YAML adapter implemented.
+- Minimal maintainer command interface implemented.
+- Visit Capture Foundation automated tests implemented and passing.
+- Milestone 2 Tasks 1–4 reviewed and approved by Rik.
 
 ---
 
-## In Progress
+## Current Position
 
-- Reviewing the implemented public website shell and representative content.
-- Reviewing responsive behaviour, accessibility and final visual direction.
+- The Visit Capture Foundation supports creating one living `Open` Visit and adding opaque evidence references over time.
+- The foundation contains no Google Drive integration, AI drafting, staging, publication or contributor interface.
+- The approved implementation remains uncommitted pending Rik's review of the documentation update.
+- No further implementation milestone is authorised.
 
 ---
 
 ## Next Tasks
 
-1. Complete Rik's review of the public website shell.
-2. Apply only approved shell corrections.
-3. Complete responsive and accessibility acceptance checks.
-4. Approve the shell before committing it.
-5. Begin schemas and content-pipeline implementation only after separate approval.
+1. Review the Visit Capture Foundation and documentation diff.
+2. Commit the approved foundation only after Rik explicitly authorises it.
+3. Create `Atlas Test V1` manually in Google Forms as an exploratory prototype.
+4. Use the prototype to validate the family contributor workflow, particularly on iPhones.
+5. Record findings and obtain Rik's approval before proposing any integration or further implementation.
+
+`Atlas Test V1` is an exploratory manual prototype. It is not part of the
+implemented Visit Capture Foundation and must not be treated as a Google Drive
+adapter, contributor interface or production workflow.
 
 ---
 
@@ -91,7 +104,10 @@ travel-blog/
 │   └── PROJECT_STATUS.md
 ├── dist/
 ├── public/
+├── schemas/
 ├── src/
+├── tests/
+├── visit_capture/
 ├── build.py
 └── requirements.txt
 
@@ -110,15 +126,20 @@ This file should be updated at the end of every significant development session 
 
 ## Latest Update
 
-### 2026-08-04
+### 2026-08-05
 
-- Froze and published the approved Constitution as Version 1.0.
-- Approved the Version 1 architecture, Phase 1 plan, UX proposal and Wireframe Specification.
-- Implemented and built the Version 1 public website shell.
-- Added representative Project Atlas review content and approved empty states.
-- Applied indexing, canonical URL and prototype-capability corrections identified during scope review.
-- Confirmed that schemas and the approved content pipeline have not yet been implemented.
-- Next milestone: review and approve the public website shell.
+- Approved the Visit Capture Workflow as the working design.
+- Approved the Milestone 2 Visit Capture Foundation implementation plan.
+- Implemented and verified Tasks 1–4: the minimum Visit contract,
+  storage-independent operations, the maintainer command interface and
+  automated tests.
+- Confirmed that a Visit remains a living `Open` record while opaque evidence
+  references are added over time.
+- Kept private evidence files, Google Drive, AI drafting, staging, publication,
+  Place pages and contributor interfaces outside the implementation.
+- Rik approved Milestone 2 Tasks 1–4.
+- Set the next planned activity as the manual `Atlas Test V1` Google Forms
+  prototype to validate the family contributor workflow.
 
 ---
 
@@ -126,6 +147,6 @@ This file should be updated at the end of every significant development session 
 
 Constitution Version: 1.0
 
-Implementation Status: Public website shell implemented and under review; schemas and content pipeline not yet implemented
+Implementation Status: Public website shell implemented; Visit Capture Foundation Tasks 1–4 implemented and approved; complete content pipeline not yet implemented
 
-Current Milestone: Version 1 Public Website Shell Review by Rik
+Current Milestone: Family Contributor Workflow Validation through the exploratory Atlas Test V1 prototype
