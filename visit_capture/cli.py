@@ -16,6 +16,19 @@ from .core import (
     create_visit,
     validate_visit,
 )
+from .importer import AtlasImportError, YamlPrivateMappingStore, import_submission
+
+
+def _ensure_outside_repository(path: Path, label: str) -> None:
+    repository_root = Path(__file__).resolve().parent.parent
+    resolved = path.expanduser().resolve()
+    try:
+        resolved.relative_to(repository_root)
+    except ValueError:
+        return
+    raise AtlasImportError(
+        f"{label} must be outside the public Project Atlas repository."
+    )
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -67,6 +80,44 @@ def _parser() -> argparse.ArgumentParser:
 
     validate = commands.add_parser("validate", help="Validate one Visit record.")
     validate.add_argument("--visit-id", required=True)
+
+    importer = commands.add_parser(
+        "import-csv",
+        help="Import exactly one Atlas Test V1 CSV submission.",
+    )
+    importer.add_argument("--csv", required=True, type=Path)
+    importer.add_argument(
+        "--mapping-dir",
+        required=True,
+        type=Path,
+        help="Private output directory for provenance and idempotency mappings.",
+    )
+    importer.add_argument(
+        "--place-id",
+        help="Existing opaque Place ID; omit to generate a new one.",
+    )
+    importer.add_argument(
+        "--existing-visit-id",
+        help=(
+            "Explicit Open Visit to append this distinct submission to; "
+            "omit to create a proposed new Visit."
+        ),
+    )
+    importer.add_argument(
+        "--media-type",
+        action="append",
+        choices=("photo", "video"),
+        default=[],
+        help=(
+            "Type of each photo/video upload in source order; repeat once "
+            "per uploaded item."
+        ),
+    )
+    importer.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Validate and preview without writing a Visit or private mapping.",
+    )
     return parser
 
 
@@ -101,14 +152,51 @@ def main(arguments: list[str] | None = None) -> int:
         elif args.command == "show":
             record = store.load(args.visit_id)
             print(yaml.safe_dump(record, sort_keys=False, allow_unicode=True), end="")
-        else:
+        elif args.command == "validate":
             record = store.load(args.visit_id)
             validate_visit(record)
             print(
                 f"Visit {record['visit_id']} is valid, Open, and contains "
                 f"{len(record['evidence'])} evidence reference(s)."
             )
-    except VisitError as error:
+        else:
+            _ensure_outside_repository(args.store, "Visit store")
+            _ensure_outside_repository(args.mapping_dir, "Private mapping directory")
+            result = import_submission(
+                args.csv,
+                visit_store=store,
+                mapping_store=YamlPrivateMappingStore(args.mapping_dir),
+                place_id=args.place_id,
+                existing_visit_id=args.existing_visit_id,
+                media_types=tuple(args.media_type),
+                dry_run=args.dry_run,
+            )
+            if args.dry_run:
+                print(
+                    yaml.safe_dump(
+                        {
+                            "dry_run": True,
+                            "idempotent": result.idempotent,
+                            "visit": result.visit,
+                            "private_mapping": result.private_mapping,
+                        },
+                        sort_keys=False,
+                        allow_unicode=True,
+                    ),
+                    end="",
+                )
+            else:
+                outcome = "Already imported" if result.idempotent else "Imported"
+                action = (
+                    "appended to"
+                    if result.private_mapping.get("operation") == "append"
+                    else "created"
+                )
+                print(
+                    f"{outcome} one Atlas Test V1 submission; {action} Open Visit "
+                    f"{result.visit['visit_id']}."
+                )
+    except (VisitError, OSError, yaml.YAMLError) as error:
         print(f"Error: {error}", file=sys.stderr)
         return 1
     return 0

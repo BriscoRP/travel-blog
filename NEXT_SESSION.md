@@ -8,117 +8,153 @@
 - Use AI to assist with drafting while Rik retains editorial control.
 - Optimise for long-term maintainability rather than rapid feature growth.
 
+## Current milestone
+
+The focused Google Forms Importer Hardening milestone is implemented and
+awaiting Rik's review.
+
+No later implementation milestone is authorised.
+
 ## Current position
 
-- The Project Atlas Constitution is frozen as Version 1.0.
-- The public website shell is implemented; its final copy, visual direction and
-  accessibility acceptance remain separate outstanding work.
-- The Visit Capture Workflow is approved as the working design.
-- Milestone 2 Visit Capture Foundation Tasks 1–4 are implemented, approved,
-  committed and pushed.
-- `Atlas Test V1` has completed two end-to-end manual submissions.
+- The Constitution is frozen as Version 1.0.
+- The public website shell and Visit Capture Foundation are approved.
 - `Atlas Test V1` is frozen for the first family pilot.
+- The Google Form and linked Google Sheet remain private operational tools.
+- The importer has no Google API, authentication or live connectivity.
+- No private family submission has been imported by this implementation.
 
-## Atlas Test V1 outcome
+## What was implemented
 
-The manual Google Forms prototype demonstrated that:
+- Updated `AGENTS.md` to include `NEXT_SESSION.md` in startup, identify the
+  current milestone before work, record incremental development and require
+  Rik's separate commit and push approval.
+- Added strict CSV parsing for exactly one Atlas Test V1 response.
+- Supported both:
+  - `Who went on the visit? (private)`
+  - `Who went on the vist? (private)`
+- Preserved the exact visitor heading used by the source in the private mapping.
+- Generated opaque Visit, Place, contributor, evidence and import identifiers.
+- Allowed an existing opaque Place ID to be supplied instead of generating one.
+- Built and validated one complete `Open` Visit before persistence.
+- Registered the complete form response as opaque note evidence.
+- Registered photo, video and audio uploads as opaque evidence references.
+- Required explicit photo/video types when the CSV link alone is ambiguous.
+- Added a separate private YAML mapping output for raw form values and provider
+  references.
+- Added dry-run mode, source fingerprinting, idempotent re-import and
+  recoverable pending/complete journal states.
+- Required Visit storage and private mapping output to be outside the public
+  repository when using the CLI.
+- Added `--existing-visit-id` for an explicit append to one existing `Open`
+  Visit.
+- Recovered the existing private Place and contributor mappings before append.
+- Compared submitted Place name, location, Visit date and private visitor set
+  with the existing mapping and reported every difference.
+- Preserved all earlier evidence and appended the new form response and media
+  in one record update.
+- Incremented `record_version` once per distinct appended submission.
+- Used optimistic version checking for the append save.
+- Kept identical first and later submissions idempotent after the Visit evolves.
 
-- The contributor workflow is simple and suitable for the first family pilot.
-- The form captures the Place name, location context, private visitor identity,
-  Visit date, first-hand observations, advice and optional facility details.
-- Photos and videos can be uploaded privately to Google Drive.
-- The response spreadsheet contains private links to uploaded evidence.
-- Contributors are not asked for internal identifiers, approval metadata,
-  publication settings or technical publishing information.
+## Privacy boundary
 
-`Atlas Test V1` remains an exploratory contributor prototype. It is not part of
-the implemented Visit Capture Foundation and is not an approved final
-contributor interface.
+The Open Visit contains only:
 
-## Completed implementation
+- Opaque identifiers.
+- Visit date and precision.
+- `Open` state.
+- Safe generic evidence descriptions.
+- Record timestamps and version.
 
-- Minimum Version 1 Visit record contract.
-- Storage-independent Visit operations behind the `VisitStore` interface.
-- Local YAML storage adapter.
-- Maintainer commands to create, show, validate and add evidence references.
-- Automated tests using fictional data and temporary storage.
-- Living `Open` Visit behaviour with incremental opaque evidence references.
+The separate private mapping contains:
 
-## Decisions now approved
+- Raw form headings and values.
+- Private visitor labels.
+- Place name and submitted location.
+- Google or other provider references.
+- The mapping from private values to opaque identifiers.
+- The exact planned Visit used for recovery and idempotency.
 
-- Constitution Version 1.0.
-- Static Python/Jinja architecture with Cloudflare Pages as the intended hosting
-  platform.
-- One canonical public page per Place with one or more Visit records.
-- Privacy, evidence separation, exact-version approval and deny-by-default
-  publishing rules.
-- Visit Capture Workflow as the working lifecycle design.
-- Milestone 2 Tasks 1–4 implementation.
-- `VisitStore` as the structured Visit-record storage boundary.
-- A Visit remains `Open` until a future explicitly authorised readiness
-  transition is implemented.
-- `Atlas Test V1` question set is frozen for the first family pilot.
+The private mapping must remain outside public Git.
 
-## Next objective
+## Verification
 
-Design and implement the Google Forms Importer that converts a completed
-`Atlas Test V1` submission into an `Open` Visit using the existing Visit Capture
-Foundation.
+- All 45 automated tests pass.
+- Tests use fictional submissions and temporary directories.
+- Dry-run writes neither a Visit nor a mapping.
+- Re-importing either source fingerprint returns the current existing Visit.
+- A distinct later submission appends only when Rik explicitly supplies the
+  existing Visit ID.
+- Omitting the existing Visit ID creates a separate proposed Visit and never
+  merges automatically.
+- Closed or unknown states, mapping conflicts and stale versions are rejected.
+- Reordered columns, a UTF-8 BOM, quoted commas, multiline paragraphs, empty
+  optional cells and multiple uploaded-file links are supported or tested.
+- Ambiguous media typing fails before any output is written.
+- Normal create or append storage failures remove their new pending mappings.
+- Pending create or append mappings can recover interrupted imports on retry.
+- Existing Visit Capture Foundation behaviour remains covered.
 
-The importer should:
+## Implementation decisions
 
-- Translate the completed response into the minimum Visit contract.
-- Assign or use opaque Visit, Place, contributor and evidence identifiers.
-- Register the form response and uploaded media as opaque evidence references.
-- Keep Google account details, spreadsheet links, Drive identifiers, filenames
-  and private evidence outside public Git.
-- Be idempotent so the same submission cannot create duplicate Visits or
-  evidence references.
-- Stop with a clear error when required information is absent or ambiguous.
-- Create only an `Open` Visit.
+- Input is a CSV export, not a live Sheet.
+- Exactly one response row is imported at a time.
+- CSV headings are strict so unexpected private fields are not ignored.
+- The raw response is private evidence rather than approved public content.
+- Google timestamps are retained as local source timestamps without inventing a
+  timezone.
+- Visit dates are normalised from `DD/MM/YYYY` to ISO `YYYY-MM-DD`.
+- Visitor labels are split on commas, semicolons or new lines and mapped to
+  random opaque contributor IDs.
+- Photo/video types must be provided explicitly in source-link order because
+  Drive URLs do not safely identify media type.
+- The importer calls `VisitStore.create` once with a fully validated Visit.
+- A later submission is appended only through an explicit
+  `--existing-visit-id`; text similarity is never used.
+- Append requires the original private create mapping and reuses its Place and
+  contributor IDs.
+- Append calls `VisitStore.save` once with the expected prior record version.
 
-Google authentication, private evidence retrieval and provider-specific file
-handling must remain behind explicit private boundaries. AI drafting,
-Ready for Review, staging and publication remain out of scope.
+## Future adapter connection
 
-## Decisions still outstanding
+A future Google Sheets adapter can supply one response with the same logical
+headings to the importer parser boundary. A future Google Drive evidence
+adapter can resolve provider references held in the private mapping.
 
-- The exact importer input boundary: exported row, spreadsheet access or
-  another authorised source.
-- How private Google response and file identifiers are mapped to opaque Project
-  Atlas identifiers.
-- How private visitor names are mapped to opaque contributor identifiers.
-- How a submitted location is matched to an existing Place or assigned a new
-  opaque Place identity.
-- Whether structured Visit persistence and Drive evidence access require
-  separate adapters.
-- Credential storage and least-privilege access.
-- Retry, duplicate and partial-failure behaviour.
-- The future `Ready for Review` transition and evidence-snapshot behaviour.
-- AI-assisted draft creation and its evidence-access boundary.
-- Final review of the public website shell, final public copy, canonical domain,
-  public contact routes and `dist/` policy.
+Those adapters must not change:
+
+- Visit validation.
+- Opaque public-repository references.
+- `Open` state behaviour.
+- Editorial approval boundaries.
+- The separation between private evidence and publishing Git.
+
+Authentication, credentials, provider retries and file retrieval remain future
+work and require separate approval.
 
 ## Current repository status
 
 - Branch: `main`.
-- The Visit Capture Foundation is committed and present on `origin/main`.
-- `docs/PROJECT_STATUS.md` and `NEXT_SESSION.md` contain the current uncommitted
-  documentation update.
-- No Constitution, public website or implementation files were changed.
-- No commit or push has been made for this documentation update.
+- Baseline commit: `99f67a8`.
+- Governance, importer, tests and session documents are modified or untracked.
+- No Constitution or public website files were changed.
+- Nothing has been committed or pushed.
+
+## Next objective
+
+Obtain Rik's review of the hardened new-versus-append workflow, private mapping
+outputs, difference reporting, idempotency model, failure handling and complete
+diff.
 
 ## Next session plan
 
-1. Read `AGENTS.md`, the bootstrap, project status, Constitution and this
-   handover.
-2. Confirm Git status and review the documentation diff.
-3. Inspect the authorised `Atlas Test V1` response structure without copying
-   private evidence into Git.
-4. Produce the minimum Google Forms Importer design and implementation plan.
-5. Resolve importer-boundary and identifier-mapping decisions with Rik.
-6. Wait for approval before implementation.
-7. Implement only the approved importer slice using fictional automated test
-   data.
-8. Verify that the result is an `Open` Visit with private provider details kept
-   outside public Git.
+1. Read the mandatory startup documents in `AGENTS.md` order.
+2. Confirm the current milestone and Git status.
+3. Review the fictional input and all generated outputs.
+4. Apply only corrections explicitly approved by Rik.
+5. Run the full automated suite and whitespace checks.
+6. Update the operational documents if review changes the result.
+7. Recommend a focused commit message.
+8. Wait for Rik before committing.
+9. Wait for Rik before pushing.

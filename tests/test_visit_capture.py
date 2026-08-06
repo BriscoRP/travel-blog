@@ -33,7 +33,9 @@ def fixed_clock(hour: int):
 
 class VisitCaptureTests(unittest.TestCase):
     def setUp(self):
-        self.temporary_directory = tempfile.TemporaryDirectory()
+        self.temporary_directory = tempfile.TemporaryDirectory(
+            ignore_cleanup_errors=True
+        )
         self.addCleanup(self.temporary_directory.cleanup)
         self.store = YamlVisitStore(self.temporary_directory.name)
 

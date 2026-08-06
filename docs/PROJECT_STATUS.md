@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Google Forms Importer |
-| Status | Atlas Test V1 completed and frozen; importer design next |
-| Objective | Design and implement an importer that converts a completed Google Form submission into an `Open` Visit using the existing Visit Capture Foundation. |
+| Phase | Google Forms Importer Hardening Review |
+| Status | Create and explicit append workflows implemented; awaiting Rik's review |
+| Objective | Review and approve the hardened importer before any private family submission is imported. |
 
 ---
 
@@ -71,6 +71,25 @@ It provides a single source of truth for current progress, active work and the n
 - Required location context and private visitor identity added after the first
   test.
 - `Atlas Test V1` frozen for the first family pilot.
+- Repository governance updated for milestone-based startup and session
+  completion.
+- One-row Atlas Test V1 CSV importer implemented.
+- Correct and legacy private visitor headings supported explicitly.
+- Opaque Visit, Place, contributor and evidence identifier generation
+  implemented.
+- Dry-run, idempotency and recoverable private mapping journal implemented.
+- Uploaded media registered through opaque evidence references with explicit
+  photo/video typing.
+- Google Forms Importer automated tests implemented using fictional data.
+- Explicit append to an existing `Open` Visit implemented.
+- Later submissions preserve all earlier evidence and increment the Visit record
+  version once.
+- Existing private Place and contributor mappings recovered for append
+  validation.
+- Place, location, Visit date and visitor differences reported clearly.
+- Reordered columns, UTF-8 BOM, quoted commas, multiline cells, empty optional
+  cells and multiple upload links covered.
+- Full automated suite passing with 45 tests.
 
 ---
 
@@ -78,28 +97,34 @@ It provides a single source of truth for current progress, active work and the n
 
 - The Visit Capture Foundation supports creating one living `Open` Visit and adding opaque evidence references over time.
 - The foundation contains no Google Drive integration, AI drafting, staging, publication or contributor interface.
-- `Atlas Test V1` is sufficiently aligned with the Constitution, Version 1
-  Architecture, Visit Capture Workflow and Visit Capture Foundation for the
-  first family pilot.
-- The manual prototype remains separate from the implemented foundation.
-- The next implementation milestone is the Google Forms Importer.
+- The importer accepts an exported CSV containing exactly one Atlas Test V1
+  submission.
+- Without an explicit existing Visit ID, it creates a proposed new `Open`
+  Visit and never attempts an automatic merge.
+- With `--existing-visit-id`, it appends one distinct submission to that exact
+  existing `Open` Visit.
+- Create uses `VisitStore.create`; append uses one optimistic
+  `VisitStore.save`.
+- Raw form values, private visitor labels and Google provider references remain
+  in a separate explicitly private mapping output.
+- There is no Google API, authentication, live connectivity, AI, staging,
+  publication or website behaviour.
+- The implementation is uncommitted and awaits Rik's review.
 
 ---
 
 ## Next Tasks
 
-1. Define the minimum Google Forms Importer contract and privacy boundaries.
-2. Map a completed form response to one `Open` Visit and opaque evidence
-   references.
-3. Define how private Google identifiers, spreadsheet links, filenames and
-   contributor identities remain outside public Git.
-4. Design idempotency, duplicate handling, ambiguous-record handling and clear
-   failure behaviour.
-5. Obtain Rik's approval for the importer implementation plan.
-6. Implement and test the smallest working importer slice using fictional data.
+1. Review the governance and hardened importer diff.
+2. Review the fictional two-submission create-and-append demonstration.
+3. Confirm the explicit Visit selection, difference reporting, media-type and
+   private-output boundaries.
+4. Apply only corrections approved by Rik.
+5. Re-run all tests and review the final diff.
+6. Recommend a focused commit message and wait for Rik before committing.
+7. Wait for separate approval before pushing or importing real family data.
 
-The importer must create only an `Open` Visit. AI drafting, readiness,
-editorial approval, staging and publication remain out of scope.
+No subsequent implementation milestone is authorised.
 
 ---
 
@@ -160,6 +185,19 @@ This file should be updated at the end of every significant development session 
 - Froze `Atlas Test V1` for the first family pilot.
 - Set the next objective as designing and implementing the Google Forms
   Importer using the existing Visit Capture Foundation.
+- Updated `AGENTS.md` with the current startup, milestone and session-completion
+  governance.
+- Implemented the CSV-only Google Forms Importer using the existing
+  storage-independent Visit foundation.
+- Added private mapping output, dry-run, idempotent retry and safe failure
+  behaviour.
+- Preserved the current misspelled Google Sheet visitor heading as an explicitly
+  supported input.
+- Implemented the focused Importer Hardening milestone.
+- Added explicit append to an existing `Open` Visit without automatic matching.
+- Added private Place/contributor recovery, difference reporting, optimistic
+  versioning and recoverable append failure handling.
+- Verified the complete implementation with 45 passing tests.
 
 ---
 
@@ -167,6 +205,6 @@ This file should be updated at the end of every significant development session 
 
 Constitution Version: 1.0
 
-Implementation Status: Public website shell and Visit Capture Foundation implemented; Atlas Test V1 exploratory prototype completed and frozen; Google Forms Importer not yet implemented
+Implementation Status: Public website shell and Visit Capture Foundation approved; Atlas Test V1 frozen; hardened Google Forms Importer implemented and awaiting review
 
-Current Milestone: Google Forms Importer design and implementation
+Current Milestone: Google Forms Importer Hardening review and approval

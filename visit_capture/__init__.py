@@ -8,6 +8,7 @@ from .core import (
     VisitValidationError,
     YamlVisitStore,
     add_evidence,
+    build_open_visit,
     create_visit,
     validate_visit,
 )
@@ -20,6 +21,7 @@ __all__ = [
     "VisitValidationError",
     "YamlVisitStore",
     "add_evidence",
+    "build_open_visit",
     "create_visit",
     "validate_visit",
 ]

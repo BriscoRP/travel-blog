@@ -287,6 +287,29 @@ def create_visit(
     clock: Callable[[], datetime] = _utc_now,
 ) -> dict:
     """Create one living Open Visit."""
+    record = build_open_visit(
+        visit_id=visit_id,
+        place_id=place_id,
+        visit_date=visit_date,
+        visit_date_precision=visit_date_precision,
+        contributor_ids=contributor_ids,
+        clock=clock,
+    )
+    store.create(record)
+    return deepcopy(record)
+
+
+def build_open_visit(
+    *,
+    visit_id: str,
+    place_id: str,
+    visit_date: str,
+    visit_date_precision: str,
+    contributor_ids: list[str],
+    evidence: list[dict] | None = None,
+    clock: Callable[[], datetime] = _utc_now,
+) -> dict:
+    """Build and validate one complete Open Visit without persisting it."""
     timestamp = _timestamp(clock)
     record = {
         "schema_version": SCHEMA_VERSION,
@@ -297,12 +320,11 @@ def create_visit(
         "visit_date_precision": visit_date_precision,
         "state": OPEN_STATE,
         "contributor_ids": list(contributor_ids),
-        "evidence": [],
+        "evidence": deepcopy(evidence) if evidence is not None else [],
         "created_at": timestamp,
         "last_modified_at": timestamp,
     }
     validate_visit(record)
-    store.create(record)
     return deepcopy(record)
 
 
@@ -364,15 +386,28 @@ class YamlVisitStore:
         validate_visit(record)
         destination = self._path_for(record["visit_id"])
         self.root.mkdir(parents=True, exist_ok=True)
+        file_descriptor, temporary_name = tempfile.mkstemp(
+            dir=self.root, prefix=f".{record['visit_id']}-", suffix=".tmp"
+        )
         try:
-            with destination.open("x", encoding="utf-8", newline="\n") as stream:
+            with os.fdopen(
+                file_descriptor, "w", encoding="utf-8", newline="\n"
+            ) as stream:
                 yaml.safe_dump(
                     record, stream, sort_keys=False, allow_unicode=True
                 )
+                stream.flush()
+                os.fsync(stream.fileno())
+            os.link(temporary_name, destination)
         except FileExistsError as error:
             raise VisitAlreadyExistsError(
                 f"Visit {record['visit_id']} already exists."
             ) from error
+        finally:
+            try:
+                os.unlink(temporary_name)
+            except FileNotFoundError:
+                pass
 
     def load(self, visit_id: str) -> dict:
         source = self._path_for(visit_id)
