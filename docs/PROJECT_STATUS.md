@@ -9,7 +9,7 @@ status: Active
 owner: Rik Powell
 
 created: 2026-08-02
-last_updated: 2026-08-05
+last_updated: 2026-08-06
 
 updated_every_session: true
 codex_maintained: true
@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Google Forms Importer Hardening Review |
-| Status | Create and explicit append workflows implemented; awaiting Rik's review |
-| Objective | Review and approve the hardened importer before any private family submission is imported. |
+| Phase | Read-only Google Sheets Connection Checkpoint |
+| Status | Live connection proven; awaiting Rik's review |
+| Objective | Verify secure read-only access to the private Atlas Test V1 response Sheet without importing a response. |
 
 ---
 
@@ -90,6 +90,13 @@ It provides a single source of truth for current progress, active work and the n
 - Reordered columns, UTF-8 BOM, quoted commas, multiline cells, empty optional
   cells and multiple upload links covered.
 - Full automated suite passing with 45 tests.
+- Importer Hardening committed and pushed as `a1819fb`.
+- Official desktop OAuth connection implemented with the
+  `spreadsheets.readonly` scope.
+- Real Atlas Test V1 spreadsheet and response worksheet reached successfully.
+- All 13 response headings recognised and the response-row count observed
+  changing from 2 to 3 after a deliberately fictional Form submission, without
+  printing private response values.
 
 ---
 
@@ -109,20 +116,20 @@ It provides a single source of truth for current progress, active work and the n
   in a separate explicitly private mapping output.
 - There is no Google API, authentication, live connectivity, AI, staging,
   publication or website behaviour.
-- The implementation is uncommitted and awaits Rik's review.
+- The hardened importer is committed and present on `origin/main`.
+- The Google Sheets checkpoint authenticates Rik through a private local
+  desktop OAuth flow and performs structural read-only checks only.
+- OAuth client configuration, tokens and Sheet identifiers remain outside Git.
+- The real Sheet is read-only to Atlas; no response has been imported.
 
 ---
 
 ## Next Tasks
 
-1. Review the governance and hardened importer diff.
-2. Review the fictional two-submission create-and-append demonstration.
-3. Confirm the explicit Visit selection, difference reporting, media-type and
-   private-output boundaries.
-4. Apply only corrections approved by Rik.
-5. Re-run all tests and review the final diff.
-6. Recommend a focused commit message and wait for Rik before committing.
-7. Wait for separate approval before pushing or importing real family data.
+1. Review the read-only Google Sheets connection checkpoint.
+2. Confirm the OAuth, private-configuration and safe-output boundaries.
+3. Commit and push the checkpoint only after Rik's separate approvals.
+4. Design the larger Google-to-importer workflow only after separate approval.
 
 No subsequent implementation milestone is authorised.
 
@@ -199,12 +206,31 @@ This file should be updated at the end of every significant development session 
   versioning and recoverable append failure handling.
 - Verified the complete implementation with 45 passing tests.
 
+### 2026-08-06
+
+- Committed and pushed the approved Importer Hardening milestone as `a1819fb`.
+- Added isolated Google Sheets desktop OAuth scaffolding using only
+  `https://www.googleapis.com/auth/spreadsheets.readonly`.
+- Stored OAuth configuration, tokens and Sheet identifiers outside the
+  repository.
+- Successfully authenticated Rik and read the structure of the real Atlas Test
+  V1 response Sheet.
+- Confirmed 13 recognised headings and observed the response count change from
+  2 to 3 after a deliberately fictional Form submission, without printing
+  private response content.
+- Decided that automated and integration tests will simulate Google Sheet
+  responses using fictional data outside the real Sheet.
+- The real Sheet remains read-only to Atlas; artificial test rows must never be
+  written to it.
+- A future real-world validation will use a new submission made through the
+  actual Atlas Test V1 Google Form.
+
 ---
 
 ## Version
 
 Constitution Version: 1.0
 
-Implementation Status: Public website shell and Visit Capture Foundation approved; Atlas Test V1 frozen; hardened Google Forms Importer implemented and awaiting review
+Implementation Status: Public website shell, Visit Capture Foundation and hardened importer approved; read-only Google Sheets connection proven and awaiting review
 
-Current Milestone: Google Forms Importer Hardening review and approval
+Current Milestone: Read-only Google Sheets Connection Checkpoint

@@ -1,0 +1,6 @@
+credentials.json
+client_secret_*.apps.googleusercontent.com.json
+token.json
+oauth-client.json
+oauth-token.json
+sheet-connection.yaml

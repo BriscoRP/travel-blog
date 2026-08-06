@@ -10,8 +10,8 @@
 
 ## Current milestone
 
-The focused Google Forms Importer Hardening milestone is implemented and
-awaiting Rik's review.
+The read-only Google Sheets Connection Checkpoint is implemented and awaiting
+Rik's review.
 
 No later implementation milestone is authorised.
 
@@ -21,7 +21,17 @@ No later implementation milestone is authorised.
 - The public website shell and Visit Capture Foundation are approved.
 - `Atlas Test V1` is frozen for the first family pilot.
 - The Google Form and linked Google Sheet remain private operational tools.
-- The importer has no Google API, authentication or live connectivity.
+- The approved importer is committed and pushed as `a1819fb`.
+- The isolated Google Sheets checkpoint uses official desktop OAuth and only
+  the `spreadsheets.readonly` scope.
+- OAuth files, tokens, Sheet identifiers and private responses remain outside
+  the repository.
+- Atlas successfully authenticated Rik and reached the real Atlas Test V1
+  response worksheet.
+- The structural proof recognised all 13 headings and observed the response
+  count change from 2 to 3 after a deliberately fictional Form submission,
+  without printing response values.
+- No Google-to-importer automation or Drive integration has begun.
 - No private family submission has been imported by this implementation.
 
 ## What was implemented
@@ -130,31 +140,38 @@ Those adapters must not change:
 - Editorial approval boundaries.
 - The separation between private evidence and publishing Git.
 
-Authentication, credentials, provider retries and file retrieval remain future
-work and require separate approval.
+Automated and integration tests must simulate Google Sheet responses with
+fictional data outside the real Sheet. Atlas must never write artificial test
+rows to the real Form response Sheet. Final real-world validation will use a
+new submission through the actual Atlas Test V1 Google Form.
+
+Importer wiring, provider retries and Drive access remain future work and
+require separate approval.
 
 ## Current repository status
 
 - Branch: `main`.
-- Baseline commit: `99f67a8`.
-- Governance, importer, tests and session documents are modified or untracked.
-- No Constitution or public website files were changed.
-- Nothing has been committed or pushed.
+- Baseline commit: `a1819fb`.
+- The read-only Google Sheets checkpoint is modified or untracked.
+- No Constitution, importer behaviour or public website files were changed.
+- The checkpoint has not been committed or pushed.
 
 ## Next objective
 
-Obtain Rik's review of the hardened new-versus-append workflow, private mapping
-outputs, difference reporting, idempotency model, failure handling and complete
-diff.
+Obtain Rik's review of the read-only OAuth and structural Sheet connection
+checkpoint.
 
 ## Next session plan
 
 1. Read the mandatory startup documents in `AGENTS.md` order.
 2. Confirm the current milestone and Git status.
-3. Review the fictional input and all generated outputs.
+3. Review the read-only OAuth scope, private paths and safe structural output.
 4. Apply only corrections explicitly approved by Rik.
 5. Run the full automated suite and whitespace checks.
 6. Update the operational documents if review changes the result.
 7. Recommend a focused commit message.
 8. Wait for Rik before committing.
 9. Wait for Rik before pushing.
+
+Do not begin Google-to-importer automation or Google Drive integration without
+separate approval.
