@@ -13,8 +13,12 @@
 The Google response bridge, fictional Place prototypes and Private Media Intake
 Foundation V1 are committed and pushed. One genuine private Open Visit is
 persisted outside Git, and its matching genuine Bluebell Wood review record is
-now created with the opaque Place association explicitly verified. Publication
-remains unapproved and the photograph remains private and unprocessed.
+now created with the opaque Place association explicitly verified. Rik's
+selected genuine photograph has been applied as public-safe responsive hero
+derivatives and Rik has visually approved the result as the V1 Place-page
+direction. The genuine end-to-end content/media path is proven. Publication
+remains explicitly unapproved and the private original remains outside Git and
+unchanged.
 
 No admin web UI, AI, staging, publication or Google Drive API milestone is
 authorised.
@@ -246,56 +250,63 @@ scope is authorised.
 ## Current repository status
 
 - Branch: `main`.
-- Baseline commit: `8081208`.
-- The Sheets-to-importer bridge, tests, operational documentation and
-  fictional Place visual prototypes are modified or untracked.
+- Baseline commit: `0fab1c4` (`fix: colour-manage image derivatives`).
+- The genuine Bluebell Wood hero assets and metadata, deterministic generated
+  output, private Visit-ID regression fix, test and operational documentation
+  are modified or untracked pending review and explicit commit approval.
 - No Constitution files changed.
-- No Phase 2 or Phase 3 work has been committed or pushed.
+- No publication, deployment or admin UI work is present.
 
 ## Handover boundaries
 
 ### Committed and pushed
 
-- Google Read-Only Connection checkpoint `8081208` and everything before it.
+- Colour-Management Hardening checkpoint `0fab1c4` and everything before it.
 
 ### Uncommitted
 
-- Google Sheet to hardened-importer bridge and new-response discovery.
-- Fictional Place-page visual-review work.
-- Associated tests, documentation, source and generated build changes.
+- Genuine public-safe Bluebell Wood primary hero source derivatives and
+  deterministic generated copies.
+- Bluebell Wood hero metadata and protected generated Place page.
+- Removal of private Visit ID from publishing hero metadata with regression
+  coverage.
+- Accurate project status and handover updates.
 
 ### Proven live
 
 - Real Atlas Test V1 Form to private Sheet to Atlas read-only connection.
-- Explicitly selected response #3 to hardened-importer dry-run, using Rik's
-  explicit `photo` classification.
+- One genuine private Bluebell Wood `Open` Visit and verified opaque Place
+  association outside Git.
+- Genuine response through private persistence, public-safe Place review,
+  explicit hero selection, private dry-run and preview, colour-managed apply,
+  static build and Rik's local visual approval.
 
 ### Not yet done
 
 - Permanent import of response #3.
-- Processing or associating the still-private Bluebell Wood photograph.
+- Reuse of the selected primary image on Place listing cards; the current
+  listing renders no card images, so this remains a deferred policy gap.
+- Detailed Place layout and styling, breadcrumbs, tags and filtering, and final
+  responsive-image tuning after template measurement, representative images,
+  Lighthouse and Core Web Vitals review.
 - Any private media admin web UI.
 - Any approved Place refinements following Rik's visual review.
 - Any real or public Place publication.
 
 ## Next objective
 
-Begin one controlled Bluebell Wood hero-photo validation from the verified
-Place and private Visit association, starting with dry-run only. Keep the
-original outside Git and chat and persist no publishing media without a
-separate approval.
+Preserve the reviewed genuine Bluebell Wood hero and private Visit-ID regression
+fix as clean checkpoints. Do not treat visual approval as publication approval.
 
 ## Next session plan
 
 1. Begin with Rik's daily stand-up.
 2. Review the current project position and agree the day's goals.
 3. Confirm the current milestone and Git status.
-4. Keep Rik's selected original outside Git and chat and begin with dry-run
-   only against the already verified Bluebell Wood Place/Visit association.
-5. Use a private preview outside the repository before any separately approved
-   apply step.
-6. Do not add an admin UI, galleries, Drive access or unrelated frontend work.
-7. Wait for Rik's explicit approval before apply, commit or push.
+4. Keep detailed Place/listing refinement and responsive-image optimisation
+   deferred.
+5. Do not add an admin UI, galleries, Drive access or unrelated frontend work.
+6. Wait for Rik's explicit approval before commit, push or publication work.
 
 Do not begin private media-intake implementation, AI drafting, staging or
 publication without separate approval.

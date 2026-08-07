@@ -31,8 +31,8 @@ It provides a single source of truth for current progress, active work and the n
 | Property | Value |
 |----------|-------|
 | Phase | Controlled Real-Photograph Validation Preparation |
-| Status | Genuine private Open Visit and matching public-safe Bluebell Wood review record created and ID-verified |
-| Objective | Keep publication unapproved and begin the controlled hero-photo test with a dry-run only. |
+| Status | Genuine Bluebell Wood hero applied and visually approved as the V1 Place-page direction |
+| Objective | Preserve the proven review-only checkpoint; defer detailed template and delivery refinement. |
 
 ---
 
@@ -187,8 +187,27 @@ It provides a single source of truth for current progress, active work and the n
   association and only Rik-approved public-safe categories. Its local page is
   review-only, `noindex, nofollow`, canonical-free, sitemap-excluded and not
   approved for publication.
-- The associated photograph remains private, uninspected and unprocessed. No
-  media has been associated with the review Place.
+- Rik explicitly approved one genuine Bluebell Wood photograph as the primary
+  hero after dry-run, private-preview and colour-management validation. The
+  public-safe responsive WebPs are associated with the protected review Place;
+  the private original remains outside Git and unchanged.
+- Hero metadata contains only public delivery fields and Rik-approved alt text.
+  The private Visit ID is used for operator-side association validation but is
+  not persisted in publishing source or generated HTML.
+- The genuine end-to-end content and media path is now proven: private Visit
+  association, public-safe Place review, explicit hero selection, private
+  validation, public-safe apply, static build and local visual review.
+- Rik visually approved the resulting Bluebell Wood page as the V1 Place-page
+  direction. Detailed layout and styling, breadcrumbs, tags and filtering, and
+  final responsive-image tuning remain deferred until the final template can be
+  measured with representative images, Lighthouse and Core Web Vitals.
+- The Places listing currently renders no card images, so it does not yet reuse
+  the approved primary image. This Primary Place Image Policy gap is recorded
+  for the deferred final Place/listing template work.
+- The private Visit-ID publishing regression discovered during apply is fixed
+  with regression coverage. Opaque identifiers provide identity, never
+  authorisation.
+- No private media administration UI has been implemented.
 
 ## Approved V1 Media Boundary
 
@@ -250,11 +269,10 @@ It provides a single source of truth for current progress, active work and the n
 
 ## Next Tasks
 
-1. Keep the selected original outside Git and chat and begin the controlled
-   Bluebell Wood hero-image validation with media-intake dry-run only.
-2. If the dry-run is approved, create private preview derivatives outside the
-   repository for visual and file-size comparison before any apply decision.
-3. Keep the admin web UI, galleries, Drive integration, replacement workflow,
+1. Preserve and commit the reviewed genuine Bluebell Wood hero checkpoint only
+   after explicit approval.
+2. Keep detailed Place/listing refinements, the admin web UI, galleries, Drive
+   integration, replacement workflow,
    video, audio, HEIC, AI and publication outside this checkpoint.
 
 No subsequent implementation milestone is authorised.
@@ -406,6 +424,17 @@ This file should be updated at the end of every significant development session 
   media.
 - Kept Google Sheets read-only, added no Drive API or scope, and preserved the
   rule that image approval does not approve or publish its Place.
+- Persisted the first genuine private Bluebell Wood `Open` Visit and created
+  its matching public-safe review-only Place without exposing private Visit
+  data in publishing content.
+- Applied one explicitly Rik-selected genuine primary hero through the verified
+  private Place/Visit boundary, sRGB transformation and metadata-safe WebP
+  pipeline; the original remained private and unchanged.
+- Fixed the discovered private Visit-ID publishing regression and added
+  regression coverage while preserving operator-side association validation.
+- Proved the genuine end-to-end content/media path and recorded Rik's visual
+  approval of the V1 Place-page direction. Detailed refinement and the admin UI
+  remain deferred.
 
 ---
 
@@ -413,6 +442,6 @@ This file should be updated at the end of every significant development session 
 
 Constitution Version: 1.0
 
-Implementation Status: Private Media Intake Foundation committed as 64c87af; genuine private Open Visit and matching Bluebell Wood review record created and association-verified, with publication unapproved
+Implementation Status: Genuine Bluebell Wood primary hero applied to review-only source with public-safe derivatives; publication remains unapproved
 
 Current Milestone: Controlled Real-Photograph Validation Preparation

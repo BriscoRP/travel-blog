@@ -11,6 +11,15 @@ parking_observation: On-site car park
 toilets_observation: 'No'
 recommendation: 'Yes'
 accessibility_observation: Uneven ground and could be muddy when wet.
+hero_image:
+  role: hero
+  alt: A waterfall in sunlight at Bluebell Wood.
+  src: /assets/places/bluebell-wood/bluebell-wood-hero-1200.webp
+  srcset: /assets/places/bluebell-wood/bluebell-wood-hero-480.webp 480w, /assets/places/bluebell-wood/bluebell-wood-hero-800.webp
+    800w, /assets/places/bluebell-wood/bluebell-wood-hero-1200.webp 1200w
+  sizes: '(min-width: 74rem) 72rem, calc(100vw - 2rem)'
+  width: 1200
+  height: 900
 ---
 Lovely bluebells like a sea of blue. Not that busy. Well signposted walk.
 
