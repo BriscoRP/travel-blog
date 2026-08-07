@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import csv
 from copy import deepcopy
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -203,6 +203,18 @@ def _split_provider_references(value: str, heading: str) -> tuple[str, ...]:
     return references
 
 
+def submission_fingerprint(
+    headings: tuple[str, ...], values: dict[str, str]
+) -> str:
+    """Return the stable source fingerprint used for importer idempotency."""
+    fingerprint_payload = json.dumps(
+        {"headings": headings, "values": values},
+        ensure_ascii=False,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(fingerprint_payload).hexdigest()
+
+
 def read_single_submission(csv_path: str | Path) -> ParsedSubmission:
     """Read and validate exactly one Atlas Test V1 response from CSV."""
     source = Path(csv_path)
@@ -254,12 +266,6 @@ def read_single_submission(csv_path: str | Path) -> ParsedSubmission:
         if not row[heading]:
             raise AtlasImportError(f"{heading} is required.")
 
-    fingerprint_payload = json.dumps(
-        {"headings": headings, "values": row},
-        ensure_ascii=False,
-        separators=(",", ":"),
-    ).encode("utf-8")
-    fingerprint = hashlib.sha256(fingerprint_payload).hexdigest()
     return ParsedSubmission(
         headings=headings,
         values=row,
@@ -273,7 +279,7 @@ def read_single_submission(csv_path: str | Path) -> ParsedSubmission:
         audio_references=_split_provider_references(
             row[AUDIO_COLUMN], AUDIO_COLUMN
         ),
-        fingerprint=fingerprint,
+        fingerprint=submission_fingerprint(headings, row),
     )
 
 
@@ -643,12 +649,26 @@ def import_submission(
     place_id: str | None = None,
     existing_visit_id: str | None = None,
     media_types: tuple[str, ...] = (),
+    source_identity: str | None = None,
     dry_run: bool = False,
     id_factory: Callable[[str], str] = generate_opaque_id,
     clock: Callable[[], datetime] = _utc_now,
 ) -> ImportResult:
     """Import one CSV submission into one validated Open Visit."""
     submission = read_single_submission(csv_path)
+    if source_identity is not None:
+        if not re.fullmatch(r"RSP-[A-F0-9]{32}", source_identity):
+            raise AtlasImportError("Source identity must be an opaque response ID.")
+        submission = replace(
+            submission,
+            fingerprint=hashlib.sha256(
+                (
+                    submission.fingerprint
+                    + "\0"
+                    + source_identity
+                ).encode("utf-8")
+            ).hexdigest(),
+        )
     existing = mapping_store.load(submission.fingerprint)
 
     if existing is not None:

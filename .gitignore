@@ -4,3 +4,7 @@ token.json
 oauth-client.json
 oauth-token.json
 sheet-connection.yaml
+response-state.yaml
+oauth-check.*.log
+__pycache__/
+*.py[cod]

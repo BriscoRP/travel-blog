@@ -11,10 +11,12 @@ from dataclasses import dataclass
 import os
 from pathlib import Path
 import tempfile
+from typing import Protocol
 
 import yaml
 
 from .importer import (
+    AtlasImportError,
     LEGACY_VISITORS_COLUMN,
     VISITORS_COLUMN,
     _FIXED_COLUMNS,
@@ -37,6 +39,69 @@ class SheetStructure:
     heading_count: int
     recognised_heading_count: int
     response_row_count: int
+
+
+@dataclass(frozen=True)
+class SheetResponseBatch:
+    """Private in-memory headings and rows returned by a response source."""
+
+    headings: tuple[str, ...]
+    rows: tuple[tuple[str, ...], ...]
+
+
+class SheetResponseSource(Protocol):
+    """Provider-independent source boundary for private Form responses."""
+
+    def fetch(self) -> SheetResponseBatch:
+        """Return current response headings and rows."""
+
+
+class GoogleSheetResponseSource:
+    """Read-only Google implementation of the private response source."""
+
+    def __init__(self, service, spreadsheet_id: str, worksheet_title: str):
+        self.service = service
+        self.spreadsheet_id = spreadsheet_id
+        self.worksheet_title = worksheet_title
+
+    def fetch(self) -> SheetResponseBatch:
+        escaped_title = self.worksheet_title.replace("'", "''")
+        from googleapiclient.errors import HttpError
+
+        try:
+            result = (
+                self.service.spreadsheets()
+                .values()
+                .get(
+                    spreadsheetId=self.spreadsheet_id,
+                    range=f"'{escaped_title}'",
+                    majorDimension="ROWS",
+                )
+                .execute()
+            )
+        except HttpError as error:
+            raise GoogleSheetsCheckError(
+                "The Google Sheets API request failed."
+            ) from error
+        values = result.get("values", [])
+        if not values:
+            raise GoogleSheetsCheckError(
+                "The configured response worksheet has no heading row."
+            )
+        headings = tuple(str(value) for value in values[0])
+        rows = []
+        for source_row in values[1:]:
+            if len(source_row) > len(headings):
+                raise GoogleSheetsCheckError(
+                    "A response row contains more values than headings."
+                )
+            padded = tuple(
+                str(source_row[index]) if index < len(source_row) else ""
+                for index in range(len(headings))
+            )
+            if any(value for value in padded):
+                rows.append(padded)
+        return SheetResponseBatch(headings=headings, rows=tuple(rows))
 
 
 def default_private_directory() -> Path:
@@ -220,6 +285,30 @@ def run_check(private_directory: Path) -> SheetStructure:
         ) from error
 
 
+def open_private_google_source(
+    private_directory: Path,
+) -> GoogleSheetResponseSource:
+    """Open the configured read-only Google source without exposing identifiers."""
+    private_directory = ensure_private_path(
+        private_directory, "Private Google directory"
+    )
+    credentials = authenticate(
+        private_directory / "oauth-client.json",
+        private_directory / "oauth-token.json",
+    )
+    spreadsheet_id, worksheet_title = load_private_connection(
+        private_directory / "sheet-connection.yaml"
+    )
+    from googleapiclient.discovery import build
+
+    service = build(
+        "sheets", "v4", credentials=credentials, cache_discovery=False
+    )
+    return GoogleSheetResponseSource(
+        service, spreadsheet_id, worksheet_title
+    )
+
+
 def main(arguments: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Verify read-only access to the private Atlas response Sheet."
@@ -235,6 +324,28 @@ def main(arguments: list[str] | None = None) -> int:
         action="store_true",
         help="Complete read-only OAuth without accessing a spreadsheet.",
     )
+    action = parser.add_mutually_exclusive_group()
+    action.add_argument(
+        "--discover",
+        action="store_true",
+        help="List opaque pending response IDs without displaying response values.",
+    )
+    action.add_argument(
+        "--import-response",
+        metavar="RESPONSE_ID",
+        help="Import one explicitly selected opaque response ID.",
+    )
+    parser.add_argument("--visit-store", type=Path)
+    parser.add_argument("--mapping-dir", type=Path)
+    parser.add_argument("--existing-visit-id")
+    parser.add_argument("--place-id")
+    parser.add_argument(
+        "--media-type",
+        action="append",
+        choices=("photo", "video"),
+        default=[],
+    )
+    parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(arguments)
     try:
         private_directory = args.private_dir or default_private_directory()
@@ -248,8 +359,64 @@ def main(arguments: list[str] | None = None) -> int:
             )
             print("Google read-only authentication succeeded.")
             return 0
+        if args.discover or args.import_response:
+            from .core import YamlVisitStore
+            from .google_bridge import (
+                PrivateResponseStateStore,
+                discover_responses,
+                import_selected_response,
+            )
+            from .importer import YamlPrivateMappingStore
+
+            private_directory = ensure_private_path(
+                private_directory, "Private Google directory"
+            )
+            source = open_private_google_source(private_directory)
+            state_store = PrivateResponseStateStore(
+                private_directory / "response-state.yaml"
+            )
+            if args.discover:
+                discovery = discover_responses(source, state_store)
+                print(f"Total responses: {discovery.total_count}")
+                print(f"Processed responses: {discovery.processed_count}")
+                print(f"Pending responses: {discovery.pending_count}")
+                for response_id in discovery.pending_ids:
+                    print(f"Pending response: {response_id}")
+                return 0
+            if args.visit_store is None or args.mapping_dir is None:
+                raise GoogleSheetsCheckError(
+                    "--visit-store and --mapping-dir are required for import."
+                )
+            result = import_selected_response(
+                source,
+                state_store=state_store,
+                response_id=args.import_response,
+                visit_store=YamlVisitStore(
+                    ensure_private_path(args.visit_store, "Visit store")
+                ),
+                mapping_store=YamlPrivateMappingStore(
+                    ensure_private_path(
+                        args.mapping_dir, "Private mapping directory"
+                    )
+                ),
+                existing_visit_id=args.existing_visit_id,
+                place_id=args.place_id,
+                media_types=tuple(args.media_type),
+                dry_run=args.dry_run,
+            )
+            print(
+                "Selected response validated through the hardened importer."
+            )
+            print(f"Dry run: {'yes' if result.dry_run else 'no'}")
+            print(
+                "Operation: "
+                f"{result.private_mapping.get('operation', 'create')}"
+            )
+            print(f"Open Visit ID: {result.visit['visit_id']}")
+            print(f"Evidence count: {len(result.visit['evidence'])}")
+            return 0
         result = run_check(private_directory)
-    except GoogleSheetsCheckError as error:
+    except (GoogleSheetsCheckError, AtlasImportError) as error:
         print(f"Connection check failed: {error}")
         return 1
     print("Google Sheets read-only connection succeeded.")
