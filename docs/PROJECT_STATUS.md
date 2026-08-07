@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Controlled Real-Photograph Validation Preparation |
-| Status | Genuine Bluebell Wood hero applied and visually approved as the V1 Place-page direction |
-| Objective | Preserve the proven review-only checkpoint; defer detailed template and delivery refinement. |
+| Phase | Local Operator Workflow Preparation |
+| Status | 7 August goals completed; genuine contribution-to-review path proven and committed |
+| Objective | Use the next genuine response to observe operator friction before designing the smallest useful local Admin UX. |
 
 ---
 
@@ -145,7 +145,7 @@ It provides a single source of truth for current progress, active work and the n
 - That response passed hardened-importer dry-run validation and was then
   persisted with separate explicit approval as one genuine private `Open`
   Visit, its private mapping and processed-response state.
-- The fictional Place pages are uncommitted review prototypes, remain
+- The fictional Place pages are committed review prototypes, remain
   `noindex, nofollow`, have no canonical URLs and are excluded from the
   sitemap.
 - The private Media Intake Foundation accepts explicitly selected JPEG, PNG or
@@ -208,6 +208,22 @@ It provides a single source of truth for current progress, active work and the n
   with regression coverage. Opaque identifiers provide identity, never
   authorisation.
 - No private media administration UI has been implemented.
+- Google Forms built-in email notifications for new responses were enabled by
+  Rik at the end of the session.
+- V1 does not require Rik's PC or a Python process to run continuously. The
+  intended operating loop is notification, Rik opens local Atlas tooling or a
+  future local Admin UX, then explicitly checks and processes pending
+  submissions. Cloud polling and automation are outside current V1 scope.
+
+## End-of-Day Assessment — 7 August 2026
+
+These are planning estimates, not calculated metrics. Completing today's goals
+does not mean Project Atlas itself is complete.
+
+- Goal 1 — Project records accurate: **100% of today's intended scope**.
+- Goal 2 — Form to Atlas evidence and media path: **100% of today's intended scope**.
+- Goal 3 — Place visual review: **100% of today's intended scope**.
+- Estimated overall V1 live readiness: **approximately 75%**.
 
 ## Approved V1 Media Boundary
 
@@ -265,17 +281,37 @@ It provides a single source of truth for current progress, active work and the n
 - These are recorded requirements and placeholders only; implementation awaits
   a separately approved refinement task.
 
+## Deferred Before Public V1
+
+- Final Place and site UX.
+- Breadcrumb UI and `BreadcrumbList` structured data.
+- Tags, filtering and listing/card imagery.
+- Final responsive-image candidate and quality policy.
+- Accessibility finishing review.
+- SEO titles, descriptions, canonicals and structured-data review.
+- Lighthouse and Core Web Vitals validation.
+- Cloudflare production and deployment validation.
+- Controlled publication and indexation policy.
+- Final domain and live checks.
+
 ---
 
 ## Next Tasks
 
-1. Preserve and commit the reviewed genuine Bluebell Wood hero checkpoint only
-   after explicit approval.
-2. Keep detailed Place/listing refinements, the admin web UI, galleries, Drive
-   integration, replacement workflow,
-   video, audio, HEIC, AI and publication outside this checkpoint.
+1. Begin the next session with Rik's Daily Stand-Up and explicitly declare the
+   new Project Atlas session.
+2. If M & G submit a genuine new outing response, use it as the next operational
+   test instead of manufacturing another submission where practical.
+3. Confirm Rik receives the Google notification and Atlas discovers the new
+   response through the existing read-only Sheet connection.
+4. Observe operator friction, then design the smallest useful local Admin UX
+   for explicit response review, Visit create/append, Place association,
+   selected-photo intake, hero and alt-text approval, preview and apply.
+5. Keep publication/deployment separately approved and defer final visual and
+   SEO refinement until the operational workflow is comfortable.
 
-No subsequent implementation milestone is authorised.
+No further feature implementation is authorised in the 7 August session. The
+next session begins with real operational evidence and a fresh approval boundary.
 
 ---
 
@@ -435,6 +471,16 @@ This file should be updated at the end of every significant development session 
 - Proved the genuine end-to-end content/media path and recorded Rik's visual
   approval of the V1 Place-page direction. Detailed refinement and the admin UI
   remain deferred.
+- Verified repeat retrieval was idempotent and could not create a duplicate
+  Visit.
+- Confirmed the genuine source contained private metadata categories including
+  GPS and device metadata without recording their values; the public WebPs
+  contained none of those categories.
+- Enabled Google Forms built-in email notification for new responses as the V1
+  trigger for Rik's explicit local operator workflow; no continuously running
+  PC process or cloud polling is required.
+- Closed all three 7 August goals at 100% of their intended daily scope and set
+  the planning estimate for overall V1 live readiness to approximately 75%.
 
 ---
 
@@ -442,6 +488,6 @@ This file should be updated at the end of every significant development session 
 
 Constitution Version: 1.0
 
-Implementation Status: Genuine Bluebell Wood primary hero applied to review-only source with public-safe derivatives; publication remains unapproved
+Implementation Status: Genuine Form-to-private-Visit-to-public-safe-review path proven and committed; local Admin UX not yet implemented and publication remains unapproved
 
-Current Milestone: Controlled Real-Photograph Validation Preparation
+Current Milestone: Local Operator Workflow Preparation

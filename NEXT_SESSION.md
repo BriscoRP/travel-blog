@@ -20,6 +20,10 @@ direction. The genuine end-to-end content/media path is proven. Publication
 remains explicitly unapproved and the private original remains outside Git and
 unchanged.
 
+All three 7 August goals reached 100% of their intended daily scope. This does
+not mean Atlas is complete; estimated overall V1 live readiness is approximately
+75%.
+
 No admin web UI, AI, staging, publication or Google Drive API milestone is
 authorised.
 
@@ -60,6 +64,11 @@ authorised.
   qualify as approved production content. Rik's first impression is positive.
 - Visible breadcrumbs, correct `BreadcrumbList` structured data, useful Place
   tags and `noindex` search/filter results are deferred requirements only.
+- Google Forms built-in email notifications for new responses are enabled.
+  V1 does not require Rik's PC or Python to run continuously: the intended loop
+  is notification, Rik opens local Atlas tooling or the future local Admin UX,
+  then explicitly checks and processes pending submissions. Cloud polling is
+  outside current V1 scope.
 
 ## Approved V1 private media boundary
 
@@ -187,7 +196,7 @@ The private mapping must remain outside public Git.
 
 ## Verification
 
-- All 69 automated tests pass.
+- All 91 automated tests pass.
 - Tests use fictional submissions and temporary directories.
 - Dry-run writes neither a Visit nor a mapping.
 - Re-importing either source fingerprint returns the current existing Visit.
@@ -250,10 +259,9 @@ scope is authorised.
 ## Current repository status
 
 - Branch: `main`.
-- Baseline commit: `0fab1c4` (`fix: colour-manage image derivatives`).
-- The genuine Bluebell Wood hero assets and metadata, deterministic generated
-  output, private Visit-ID regression fix, test and operational documentation
-  are modified or untracked pending review and explicit commit approval.
+- Baseline commit: `574ed85` (`feat: add genuine Bluebell Wood hero`).
+- Functional source, generated output and tests are committed and pushed.
+- Only this end-of-session documentation reconciliation is uncommitted.
 - No Constitution files changed.
 - No publication, deployment or admin UI work is present.
 
@@ -261,16 +269,11 @@ scope is authorised.
 
 ### Committed and pushed
 
-- Colour-Management Hardening checkpoint `0fab1c4` and everything before it.
+- Genuine Bluebell Wood Hero checkpoint `574ed85` and everything before it.
 
 ### Uncommitted
 
-- Genuine public-safe Bluebell Wood primary hero source derivatives and
-  deterministic generated copies.
-- Bluebell Wood hero metadata and protected generated Place page.
-- Removal of private Visit ID from publishing hero metadata with regression
-  coverage.
-- Accurate project status and handover updates.
+- End-of-session updates to `docs/PROJECT_STATUS.md` and `NEXT_SESSION.md` only.
 
 ### Proven live
 
@@ -283,7 +286,7 @@ scope is authorised.
 
 ### Not yet done
 
-- Permanent import of response #3.
+- Operational validation with the next genuine incoming Form response.
 - Reuse of the selected primary image on Place listing cards; the current
   listing renders no card images, so this remains a deferred policy gap.
 - Detailed Place layout and styling, breadcrumbs, tags and filtering, and final
@@ -295,18 +298,41 @@ scope is authorised.
 
 ## Next objective
 
-Preserve the reviewed genuine Bluebell Wood hero and private Visit-ID regression
-fix as clean checkpoints. Do not treat visual approval as publication approval.
+Use the next genuine incoming response to observe the real local operator
+workflow, then design the smallest useful local Atlas Admin UX from that
+evidence. Do not treat visual approval as publication approval.
 
 ## Next session plan
 
-1. Begin with Rik's daily stand-up.
-2. Review the current project position and agree the day's goals.
-3. Confirm the current milestone and Git status.
-4. Keep detailed Place/listing refinement and responsive-image optimisation
-   deferred.
-5. Do not add an admin UI, galleries, Drive access or unrelated frontend work.
-6. Wait for Rik's explicit approval before commit, push or publication work.
+1. Begin with Rik's Daily Stand-Up and explicitly declare the new Project Atlas
+   session.
+2. M & G are expected to make a genuine outing and may submit a new Form
+   response; use that response instead of manufacturing another test where
+   practical.
+3. Confirm Rik receives Google's new-response email notification.
+4. Confirm Atlas discovers the response through the existing read-only Sheet
+   connection and observe the actual operator friction.
+5. From that evidence, design and build the smallest useful local Admin UX for:
+   checking submissions; reviewing/selecting a response; Visit create/append;
+   Place association; selected-photo intake; Rik-selected hero; Rik-reviewed
+   alt text; preview; and explicit apply.
+6. Keep publication and deployment as a separate approval boundary.
+7. Defer final visual, image-policy and SEO refinement until the operational
+   workflow is comfortable.
 
-Do not begin private media-intake implementation, AI drafting, staging or
-publication without separate approval.
+## Deferred before public V1
+
+- Final Place and site UX.
+- Breadcrumb UI and `BreadcrumbList` structured data.
+- Tags, filtering and listing/card imagery.
+- Final responsive-image candidate and quality policy.
+- Accessibility finishing review.
+- SEO titles, descriptions, canonicals and structured-data review.
+- Lighthouse and Core Web Vitals validation.
+- Cloudflare production and deployment validation.
+- Controlled publication and indexation policy.
+- Final domain and live checks.
+
+Do not begin the local Admin implementation before reviewing the real incoming
+workflow evidence and obtaining explicit approval for that focused slice. AI
+drafting, staging and publication remain separately unapproved.
