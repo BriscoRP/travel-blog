@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from PIL import Image
+from PIL import Image, ImageCms
 import yaml
 
 from visit_capture import media_intake
@@ -113,6 +113,38 @@ class MediaIntakeTests(unittest.TestCase):
         with Image.open(output) as derivative:
             self.assertEqual(derivative.size, (120, 80))
             self.assertEqual(len(derivative.getexif()), 0)
+
+    def test_valid_icc_profile_is_transformed_to_srgb_then_removed(self):
+        profile = ImageCms.ImageCmsProfile(ImageCms.createProfile("sRGB")).tobytes()
+        source = self.image(icc_profile=profile)
+        before = source.read_bytes()
+        transform = media_intake.ImageCms.profileToProfile
+        with patch.object(
+            media_intake.ImageCms, "profileToProfile", wraps=transform
+        ) as colour_transform:
+            plan = self.apply(source)
+        self.assertGreaterEqual(colour_transform.call_count, 2)
+        self.assertEqual(source.read_bytes(), before)
+        for output in (self.public / plan.place_slug).glob("*.webp"):
+            with Image.open(output) as derivative:
+                self.assertNotIn("icc_profile", derivative.info)
+                self.assertEqual(len(derivative.getexif()), 0)
+
+    def test_invalid_icc_profile_fails_during_dry_run(self):
+        source = self.image(icc_profile=b"not a valid colour profile")
+        with self.assertRaisesRegex(media_intake.MediaIntakeError, "ICC colour profile"):
+            self.plan(source)
+        self.assertFalse(self.public.exists())
+
+    def test_source_without_icc_profile_uses_existing_safe_path(self):
+        source = self.image()
+        with patch.object(
+            media_intake.ImageCms,
+            "profileToProfile",
+            side_effect=AssertionError("unexpected colour transform"),
+        ):
+            plan = self.apply(source)
+        self.assertEqual(len(list((self.public / plan.place_slug).glob("*.webp"))), 3)
 
     def test_aspect_ratio_widths_and_no_upscaling(self):
         plan = self.plan(self.image(size=(1200, 800)))

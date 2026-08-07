@@ -104,9 +104,14 @@ authorised.
 - Explicit apply corrects EXIF orientation, strips metadata, safely normalises
   colour mode and uses a central provisional hero profile, never exceeding the
   source width.
+- Valid embedded ICC profiles are colour-transformed to standard sRGB before
+  profile removal; invalid or unusable profiles fail safely during dry-run.
 - The current 480, 800 and 1200 candidates demonstrate delivery for the present
   72rem Place shell. They are not an SEO rule or permanent Atlas width count;
   final candidates follow approval of the final Place layout and device tests.
+- Further size and quality comparisons are paused. Quality 82 and the current
+  candidates remain provisional until template measurement, representative
+  photographs, Lighthouse and Core Web Vitals review.
 - The `sizes` value matches the actual capped shell and gutters. Browser source
   selection accounts for viewport slot, DPR, zoom and available candidates.
 - The hero is not lazy-loaded and uses `fetchpriority="high"` as the likely LCP

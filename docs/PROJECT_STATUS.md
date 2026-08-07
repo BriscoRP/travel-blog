@@ -172,9 +172,10 @@ It provides a single source of truth for current progress, active work and the n
   Width descriptors then let the browser account for device pixel density.
 - The likely LCP hero is discovered directly in HTML, is not lazy-loaded and
   uses `fetchpriority="high"`; no preload or `<picture>` complexity is added.
-- Public derivatives deliberately omit EXIF and embedded ICC profiles; normal
-  colour modes are converted to RGB or RGBA for conventional predictable web
-  output.
+- ICC-profiled sources are validated and colour-transformed to standard sRGB
+  before derivative output. Invalid or unusable profiles fail safely. Public
+  WebPs deliberately omit ICC, EXIF and other private metadata; sources without
+  profiles retain the existing safe RGB or RGBA normalisation path.
 - Public filenames use the controlled pattern
   `<place-slug>-<role>-<width>.webp` and never use the private source filename.
 - One generated fictional image demonstrates a Glasshouse Gardens hero with
@@ -231,6 +232,9 @@ It provides a single source of truth for current progress, active work and the n
 - Responsive candidate widths, candidate count and WebP quality remain
   provisional until the final Place template and representative real
   photographs have been assessed.
+- Further image-size and quality optimisation is paused. Final delivery policy
+  will be reviewed against the approved Place template, representative images,
+  Lighthouse and Core Web Vitals.
 
 ## Deferred Place Review Requirements
 

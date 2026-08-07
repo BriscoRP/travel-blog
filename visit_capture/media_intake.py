@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
+from io import BytesIO
 import os
 from pathlib import Path
 import re
@@ -11,7 +12,7 @@ import shutil
 import tempfile
 import warnings
 
-from PIL import Image, ImageOps, UnidentifiedImageError
+from PIL import Image, ImageCms, ImageOps, UnidentifiedImageError
 import yaml
 
 from .core import VisitStore, YamlVisitStore
@@ -136,10 +137,45 @@ def _inspect_image(source: Path) -> tuple[int, int]:
                 image.verify()
             with Image.open(source) as image:
                 oriented = ImageOps.exif_transpose(image)
+                _prepare_for_web(oriented)
                 return oriented.size
     except (UnidentifiedImageError, OSError, SyntaxError, Image.DecompressionBombError,
             Image.DecompressionBombWarning) as error:
         raise MediaIntakeError("Source is corrupt, unsafe or not supported image data.") from error
+
+
+def _prepare_for_web(image: Image.Image) -> Image.Image:
+    """Return standard-sRGB pixels with no source metadata attached."""
+    embedded_profile = image.info.get("icc_profile")
+    if not embedded_profile:
+        if image.mode not in {"RGB", "RGBA"}:
+            return image.convert("RGBA" if "transparency" in image.info else "RGB")
+        return image.copy()
+    try:
+        source_profile = ImageCms.ImageCmsProfile(BytesIO(embedded_profile))
+        srgb_profile = ImageCms.createProfile("sRGB")
+        has_alpha = image.mode in {"RGBA", "LA"} or "transparency" in image.info
+        if has_alpha:
+            rgba = image.convert("RGBA")
+            alpha = rgba.getchannel("A")
+            transformed = ImageCms.profileToProfile(
+                rgba.convert("RGB"),
+                source_profile,
+                srgb_profile,
+                outputMode="RGB",
+            )
+            transformed.putalpha(alpha)
+            return transformed
+        return ImageCms.profileToProfile(
+            image,
+            source_profile,
+            srgb_profile,
+            outputMode="RGB",
+        )
+    except (ImageCms.PyCMSError, OSError, TypeError, ValueError) as error:
+        raise MediaIntakeError(
+            "The source image contains an invalid or unusable ICC colour profile."
+        ) from error
 
 
 def _variant_widths(source_width: int, profile: ImageProfile) -> tuple[int, ...]:
@@ -210,9 +246,7 @@ def _render_variants(source: Path, plan: MediaPlan, destination: Path) -> None:
     with warnings.catch_warnings():
         warnings.simplefilter("error", Image.DecompressionBombWarning)
         with Image.open(source) as opened:
-            image = ImageOps.exif_transpose(opened)
-            if image.mode not in {"RGB", "RGBA"}:
-                image = image.convert("RGBA" if "transparency" in image.info else "RGB")
+            image = _prepare_for_web(ImageOps.exif_transpose(opened))
             for variant in plan.variants:
                 resized = image.resize(
                     (variant.width, variant.height), Image.Resampling.LANCZOS
