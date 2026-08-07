@@ -263,7 +263,6 @@ def _media_metadata(plan: MediaPlan) -> dict:
     largest = plan.variants[-1]
     return {
         "role": plan.role,
-        "visit_id": plan.visit_id,
         "alt": plan.alt,
         "src": largest.public_url,
         "srcset": ", ".join(

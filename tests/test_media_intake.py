@@ -217,7 +217,7 @@ class MediaIntakeTests(unittest.TestCase):
         outputs = sorted((self.public / plan.place_slug).glob("*.webp"))
         self.assertEqual(len(outputs), 3)
         hero = self.metadata()["hero_image"]
-        self.assertEqual(hero["visit_id"], VISIT_ID)
+        self.assertNotIn("visit_id", hero)
         self.assertIn("480w", hero["srcset"])
         self.assertEqual(hero["width"], 1200)
         self.assertEqual(hero["height"], 800)
