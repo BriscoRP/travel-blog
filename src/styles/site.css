@@ -467,6 +467,16 @@ li {
     font-weight: 750;
 }
 
+.place-hero-image {
+    display: block;
+    inline-size: auto;
+    max-inline-size: 100%;
+    block-size: auto;
+    margin-top: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
 .place-layout {
     display: grid;
     gap: 2rem;

@@ -13,6 +13,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 ROOT_DIR = Path(__file__).parent
 CONTENT_DIR = ROOT_DIR / "src" / "content" / "places"
 IMAGE_DIR = ROOT_DIR / "src" / "images"
+PUBLIC_ASSET_SOURCE_DIR = ROOT_DIR / "src" / "assets"
 TEMPLATE_DIR = ROOT_DIR / "src" / "templates"
 STYLE_DIR = ROOT_DIR / "src" / "styles"
 DIST_DIR = ROOT_DIR / "dist"
@@ -262,6 +263,8 @@ def render_place_reviews(environment, posts):
 def copy_assets():
     ASSET_DIR.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(STYLE_DIR / "site.css", ASSET_DIR / "site.css")
+    if PUBLIC_ASSET_SOURCE_DIR.exists():
+        shutil.copytree(PUBLIC_ASSET_SOURCE_DIR, ASSET_DIR, dirs_exist_ok=True)
 
 
 def write_robots():

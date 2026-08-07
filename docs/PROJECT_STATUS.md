@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Sheets-to-Importer Integration and Place Visual Review |
-| Status | Implemented and verified locally; awaiting Rik's review |
-| Objective | Review the private Google response bridge and fictional Place-page prototypes without importing or publishing real content. |
+| Phase | Private Media Intake Foundation V1 |
+| Status | Implemented locally; awaiting final verification and Rik's review |
+| Objective | Safely turn one Rik-selected private still image into reviewed public-safe responsive derivatives without Google Drive access or publication. |
 
 ---
 
@@ -148,6 +148,38 @@ It provides a single source of truth for current progress, active work and the n
 - The fictional Place pages are uncommitted review prototypes, remain
   `noindex, nofollow`, have no canonical URLs and are excluded from the
   sitemap.
+- The private Media Intake Foundation accepts explicitly selected JPEG, PNG or
+  prepared WebP still images from outside the repository.
+- Rik must explicitly select the Place source record, Visit ID, `hero` role and
+  accessibility-focused alt text. V1 does not infer association or final alt
+  text and does not yet implement galleries.
+- The engine loads the selected Visit from an explicitly private Visit store
+  and requires its opaque Place ID to match the selected Place record; it never
+  guesses the association from filenames, folders, metadata or image content.
+- Dry-run plans the complete operation without changing public source. An
+  optional processed preview can be written only to an explicitly private
+  directory outside the repository. Apply is a separate explicit action.
+- Apply writes metadata-stripped WebP derivatives to the static site's source
+  assets and associates responsive metadata with the selected Place. It does
+  not commit, push, deploy, approve the Place or publish anything.
+- The provisional hero delivery profile uses candidate widths of 480, 800 and
+  1200 pixels, capped at the source width; small sources receive only useful
+  non-upscaled variants. This is a current-layout demonstration policy, not an
+  SEO rule or a fixed Atlas architecture. Final candidates will be selected
+  after Rik approves the final Place image slot and representative-device tests.
+- The current `sizes` value describes the actual shell slot: viewport width
+  minus the two 1rem gutters until the 72rem cap is reached at a 74rem viewport.
+  Width descriptors then let the browser account for device pixel density.
+- The likely LCP hero is discovered directly in HTML, is not lazy-loaded and
+  uses `fetchpriority="high"`; no preload or `<picture>` complexity is added.
+- Public derivatives deliberately omit EXIF and embedded ICC profiles; normal
+  colour modes are converted to RGB or RGBA for conventional predictable web
+  output.
+- Public filenames use the controlled pattern
+  `<place-slug>-<role>-<width>.webp` and never use the private source filename.
+- One generated fictional image demonstrates a Glasshouse Gardens hero with
+  complete `src`, `srcset`, `sizes`, `width`, `height` and approved test alt
+  text while retaining every review-only indexing protection.
 
 ## Approved V1 Media Boundary
 
@@ -187,14 +219,16 @@ It provides a single source of truth for current progress, active work and the n
 
 ## Next Tasks
 
-1. Continue Rik's visual review of the three fictional Place prototypes.
-2. Decide whether any Place-page refinements should be authorised.
-3. Review the uncommitted Sheets-to-importer bridge and its fictional tests.
-4. Decide whether response #3 should be imported permanently; it remains
+1. Review the uncommitted Private Media Intake Foundation and fictional hero
+   demonstration.
+2. Decide whether the engine and operator workflow are approved.
+3. Decide whether response #3 should be imported permanently; it remains
    pending until Rik explicitly approves persistence.
-5. Plan the private media-intake workflow only as a separately approved task;
-   do not add Google Drive API access or additional Google OAuth scopes.
-6. Commit and push later phases only after separate approvals.
+4. Continue the Place visual review; breadcrumb, structured-data, tag and
+   filtering refinements remain deferred.
+5. Keep the admin web UI, galleries, replacement workflow, video, audio, HEIC,
+   AI and publication outside this milestone.
+6. Commit and push only after separate approvals.
 
 No subsequent implementation milestone is authorised.
 
@@ -333,6 +367,18 @@ This file should be updated at the end of every significant development session 
 - Recorded the intended future private image-intake requirements, including
   Place/Visit selection, validation, metadata stripping, WebP preparation,
   clean naming and Rik-approved accessibility-focused alt text.
+- Implemented the engine-first Private Media Intake Foundation with an explicit
+  local CLI and no admin web interface.
+- Added actual-data validation for JPEG, PNG and prepared WebP inputs, EXIF
+  orientation correction, metadata stripping, safe colour-mode conversion and
+  decompression-bomb protection.
+- Added deterministic responsive WebP planning and explicit dry-run, private
+  preview and apply boundaries with collision and partial-output protection.
+- Integrated a programmatically generated fictional hero into Glasshouse
+  Gardens to prove static responsive image output without using contributor
+  media.
+- Kept Google Sheets read-only, added no Drive API or scope, and preserved the
+  rule that image approval does not approve or publish its Place.
 
 ---
 
@@ -340,6 +386,6 @@ This file should be updated at the end of every significant development session 
 
 Constitution Version: 1.0
 
-Implementation Status: Read-only Google connection committed and pushed; uncommitted Sheets-to-importer bridge and fictional Place prototypes implemented and awaiting review
+Implementation Status: Prior Sheets bridge and fictional Place prototypes committed; uncommitted Private Media Intake Foundation implemented and awaiting review
 
-Current Milestone: Sheets-to-Importer Integration and Fictional Place Visual Review
+Current Milestone: Private Media Intake Foundation V1

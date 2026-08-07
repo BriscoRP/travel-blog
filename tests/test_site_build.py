@@ -3,6 +3,8 @@
 from pathlib import Path
 import unittest
 
+from PIL import Image
+
 import build
 
 
@@ -47,10 +49,36 @@ class FictionalPlaceBuildTests(unittest.TestCase):
 
     def test_public_build_contains_no_google_connectivity(self):
         for path in DIST.rglob("*"):
-            if path.is_file():
+            if path.is_file() and path.suffix.lower() in {".html", ".css", ".xml", ".txt"}:
                 content = path.read_text(encoding="utf-8")
                 self.assertNotIn("googleapis.com", content)
                 self.assertNotIn("docs.google.com", content)
+
+    def test_fictional_hero_has_complete_responsive_image_markup(self):
+        page = (DIST / "places" / "glasshouse-gardens" / "index.html").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('class="place-hero-image"', page)
+        self.assertIn('glasshouse-gardens-hero-480.webp 480w', page)
+        self.assertIn('glasshouse-gardens-hero-800.webp 800w', page)
+        self.assertIn('glasshouse-gardens-hero-1200.webp 1200w', page)
+        self.assertIn('sizes="(min-width: 74rem) 72rem, calc(100vw - 2rem)"', page)
+        self.assertIn('width="1200"', page)
+        self.assertIn('height="800"', page)
+        self.assertIn('fetchpriority="high"', page)
+        self.assertNotIn('loading="lazy"', page)
+        self.assertIn(
+            'alt="A fictional illustrated garden landscape with green hills and a golden sun."',
+            page,
+        )
+
+    def test_built_fictional_hero_variants_have_no_exif(self):
+        root = DIST / "assets" / "places" / "glasshouse-gardens"
+        variants = sorted(root.glob("*.webp"))
+        self.assertEqual(len(variants), 3)
+        for path in variants:
+            with self.subTest(path=path.name), Image.open(path) as image:
+                self.assertEqual(len(image.getexif()), 0)
 
 
 if __name__ == "__main__":

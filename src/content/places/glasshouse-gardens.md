@@ -1,6 +1,8 @@
 ---
 title: Glasshouse Gardens
-summary: A richer fictional garden visit for reviewing longer stories and layered observations.
+place_id: PLC-FICTION-GLASSHOUSE
+summary: A richer fictional garden visit for reviewing longer stories and layered
+  observations.
 location: Sample Borough, EX2 2BB
 category: day_trips
 fictional: true
@@ -13,7 +15,19 @@ terrain: Fictional paved garden paths and indoor tiled areas
 parking_observation: Fictional marked bays near the visitor entrance
 toilets_observation: Fictional facilities observed in the entrance building
 recommendation: Yes, in this fictional scenario
-accessibility_observation: The invented route includes broad paved paths, resting places and a step-free entrance to the main fictional glasshouse.
+accessibility_observation: The invented route includes broad paved paths, resting
+  places and a step-free entrance to the main fictional glasshouse.
+hero_image:
+  role: hero
+  visit_id: VIS-FICTION-MEDIA-0001
+  alt: A fictional illustrated garden landscape with green hills and a golden sun.
+  src: /assets/places/glasshouse-gardens/glasshouse-gardens-hero-1200.webp
+  srcset: /assets/places/glasshouse-gardens/glasshouse-gardens-hero-480.webp 480w,
+    /assets/places/glasshouse-gardens/glasshouse-gardens-hero-800.webp 800w, /assets/places/glasshouse-gardens/glasshouse-gardens-hero-1200.webp
+    1200w
+  sizes: '(min-width: 74rem) 72rem, calc(100vw - 2rem)'
+  width: 1200
+  height: 800
 ---
 This entirely fictional visit combines a longer family-style memory with several practical observations. It exists to test whether a richer guide remains calm, readable and trustworthy.
 

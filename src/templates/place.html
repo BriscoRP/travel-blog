@@ -8,6 +8,16 @@
         <h1>{{ post.title }}</h1>
         <p class="lead">{{ post.summary }}</p>
         <p class="place-location">{{ post.location }}</p>
+{% if post.hero_image %}
+        <img class="place-hero-image"
+             src="{{ post.hero_image.src }}"
+             srcset="{{ post.hero_image.srcset }}"
+             sizes="{{ post.hero_image.sizes }}"
+             width="{{ post.hero_image.width }}"
+             height="{{ post.hero_image.height }}"
+             fetchpriority="high"
+             alt="{{ post.hero_image.alt }}">
+{% endif %}
     </div>
 </header>
 

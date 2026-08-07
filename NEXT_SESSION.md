@@ -10,12 +10,12 @@
 
 ## Current milestone
 
-The read-only Google Sheets Connection checkpoint is committed and pushed.
-The uncommitted Sheets-to-importer bridge and fictional Place-page visual
-prototypes are implemented. Rik's first visual impression is positive, with
-specific refinements recorded for later approval.
+The Google response bridge and fictional Place prototypes are committed and
+pushed. The Private Media Intake Foundation V1 is implemented locally and
+awaiting Rik's review.
 
-No AI, staging, publication or Google Drive API milestone is authorised.
+No admin web UI, AI, staging, publication or Google Drive API milestone is
+authorised.
 
 ## Current position
 
@@ -68,6 +68,40 @@ No AI, staging, publication or Google Drive API milestone is authorised.
   Rik must review and approve it.
 - Only Rik-approved public-safe derivatives may enter publishing, and
   publication is never automatic.
+
+## Private Media Intake Foundation V1
+
+- A reusable engine and local maintainer CLI accept a Rik-selected JPEG, PNG
+  or prepared WebP source from outside the repository.
+- The command requires an explicit Place source record, Visit ID, `hero` role
+  and Rik-reviewed informative alt text. It never infers association from a
+  filename, metadata, image content or AI.
+- The selected Visit is loaded from an explicitly private Visit store and its
+  opaque Place ID must match the selected Place record before processing.
+- Dry-run reports the controlled filename, responsive widths and dimensions,
+  alt text and project-relative destination without writing publishing source.
+- An optional visual preview writes processed WebPs only to an explicitly
+  private directory outside the repository.
+- Explicit apply corrects EXIF orientation, strips metadata, safely normalises
+  colour mode and uses a central provisional hero profile, never exceeding the
+  source width.
+- The current 480, 800 and 1200 candidates demonstrate delivery for the present
+  72rem Place shell. They are not an SEO rule or permanent Atlas width count;
+  final candidates follow approval of the final Place layout and device tests.
+- The `sizes` value matches the actual capped shell and gutters. Browser source
+  selection accounts for viewport slot, DPR, zoom and available candidates.
+- The hero is not lazy-loaded and uses `fetchpriority="high"` as the likely LCP
+  image. No preload or `<picture>` element is introduced.
+- Public filenames are deterministic:
+  `<place-slug>-<role>-<width>.webp`.
+- Apply updates the selected Place's responsive image metadata only after a
+  complete derivative set is prepared. Collisions fail; the source original is
+  never deleted; apply does not approve or publish the Place.
+- A generated fictional Glasshouse Gardens hero proves the complete static
+  image markup while the page remains visibly fictional, `noindex, nofollow`,
+  canonical-free and sitemap-excluded.
+- The web-admin UI, gallery/replacement workflows, video, audio, HEIC, AI and
+  publication integration remain future work.
 
 ## What was implemented
 
@@ -215,29 +249,29 @@ scope is authorised.
 ### Not yet done
 
 - Permanent import of response #3.
-- A separately approved private media-intake or administration workflow.
+- Rik's review and approval of the Private Media Intake Foundation.
+- Any private media admin web UI.
 - Any approved Place refinements following Rik's visual review.
 - Any real or public Place publication.
 
 ## Next objective
 
-Continue Rik's visual review of the fictional Place-page prototypes, then
-decide whether any recorded refinements should be authorised.
+Review the Private Media Intake Foundation, its CLI workflow and the fictional
+Glasshouse Gardens responsive hero demonstration.
 
 ## Next session plan
 
 1. Begin with Rik's daily stand-up.
 2. Review the current project position and agree the day's goals.
 3. Confirm the current milestone and Git status.
-4. Continue reviewing the three fictional Place prototypes visually.
-5. Decide whether the deferred breadcrumb, structured-data, tag and search
-   requirements should become an approved implementation task.
+4. Review the Media Intake Foundation implementation and fictional hero output.
+5. Confirm whether the hero-only responsive strategy and operator workflow are
+   approved before considering an admin UI or gallery support.
 6. Do not add Google Drive API access or request additional Google OAuth scopes.
-7. Continue from the proven response #3 dry-run; do not repeat completed Google
-   Sheets setup.
-8. Review discovery, explicit selection, idempotency and non-merging behaviour.
-9. Apply only corrections explicitly approved by Rik.
-10. Recommend focused commit boundaries and wait for Rik before committing or
+7. Keep deferred breadcrumb, structured-data, tag and search requirements out
+   of this milestone.
+8. Apply only corrections explicitly approved by Rik.
+9. Recommend a focused commit boundary and wait for Rik before committing or
     pushing.
 
 Do not begin private media-intake implementation, AI drafting, staging or
