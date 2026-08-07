@@ -10,9 +10,11 @@
 
 ## Current milestone
 
-The Google response bridge and fictional Place prototypes are committed and
-pushed. The Private Media Intake Foundation V1 is implemented locally and
-awaiting Rik's review.
+The Google response bridge, fictional Place prototypes and Private Media Intake
+Foundation V1 are committed and pushed. One genuine private Open Visit is
+persisted outside Git, and its matching genuine Bluebell Wood review record is
+now created with the opaque Place association explicitly verified. Publication
+remains unapproved and the photograph remains private and unprocessed.
 
 No admin web UI, AI, staging, publication or Google Drive API milestone is
 authorised.
@@ -35,18 +37,19 @@ authorised.
   without printing response values.
 - V1 will not receive broad Google Drive API access merely to automate Form
   upload retrieval. No additional Google OAuth scope is approved.
-- No private family submission has been imported by this implementation.
+- One Rik-selected genuine Bluebell Wood submission has been imported to
+  approved private storage outside Git.
 - Opaque response discovery now reports pending and processed state without
   displaying response contents.
 - One explicitly selected response can be dry-run, created as a new Visit or
   appended to an explicitly supplied existing Visit through the hardened
   importer.
 - Similar and even identical Google rows never trigger automatic merging.
-- Rik explicitly classified response #3's deliberately fictional upload as a
-  photo.
-- Response #3 passed the hardened importer dry-run and proposed one `Open`
-  Visit containing one form-response note and one photo.
-- Nothing from that dry-run was persisted; response #3 remains pending.
+- Rik explicitly classified the selected response's single uploaded-media
+  reference as a photo without Atlas inspecting or downloading it.
+- The response passed dry-run validation and was separately approved for
+  persistence as one private `Open` Visit with its private mapping and
+  processed-response state.
 - The live Form to Sheet to Atlas to hardened-importer dry-run path is proven
   end-to-end.
 - Three fictional Place prototypes are available for visual review and cannot
@@ -68,6 +71,22 @@ authorised.
   Rik must review and approve it.
 - Only Rik-approved public-safe derivatives may enter publishing, and
   publication is never automatic.
+
+## Primary Place image policy
+
+- Every publishable Place has one Rik-selected primary or hero image. Atlas
+  never randomly chooses, rotates, infers or automatically replaces it.
+- The primary image is the Place-page hero and, by default, represents the
+  Place on listing cards through layout-appropriate derivatives of the same
+  approved underlying image.
+- The primary image should not be repeated unnecessarily as separate content on
+  the same Place page.
+- Additional photographs will later have deliberate editorial placement and
+  order; gallery behaviour remains out of scope.
+- Alt text remains contextual, accessibility-first and Rik-reviewed.
+- Responsive candidate widths and count, plus WebP quality, remain provisional
+  until the final Place template and representative real photographs are
+  assessed.
 
 ## Private Media Intake Foundation V1
 
@@ -249,30 +268,29 @@ scope is authorised.
 ### Not yet done
 
 - Permanent import of response #3.
-- Rik's review and approval of the Private Media Intake Foundation.
+- Processing or associating the still-private Bluebell Wood photograph.
 - Any private media admin web UI.
 - Any approved Place refinements following Rik's visual review.
 - Any real or public Place publication.
 
 ## Next objective
 
-Review the Private Media Intake Foundation, its CLI workflow and the fictional
-Glasshouse Gardens responsive hero demonstration.
+Begin one controlled Bluebell Wood hero-photo validation from the verified
+Place and private Visit association, starting with dry-run only. Keep the
+original outside Git and chat and persist no publishing media without a
+separate approval.
 
 ## Next session plan
 
 1. Begin with Rik's daily stand-up.
 2. Review the current project position and agree the day's goals.
 3. Confirm the current milestone and Git status.
-4. Review the Media Intake Foundation implementation and fictional hero output.
-5. Confirm whether the hero-only responsive strategy and operator workflow are
-   approved before considering an admin UI or gallery support.
-6. Do not add Google Drive API access or request additional Google OAuth scopes.
-7. Keep deferred breadcrumb, structured-data, tag and search requirements out
-   of this milestone.
-8. Apply only corrections explicitly approved by Rik.
-9. Recommend a focused commit boundary and wait for Rik before committing or
-    pushing.
+4. Keep Rik's selected original outside Git and chat and begin with dry-run
+   only against the already verified Bluebell Wood Place/Visit association.
+5. Use a private preview outside the repository before any separately approved
+   apply step.
+6. Do not add an admin UI, galleries, Drive access or unrelated frontend work.
+7. Wait for Rik's explicit approval before apply, commit or push.
 
 Do not begin private media-intake implementation, AI drafting, staging or
 publication without separate approval.

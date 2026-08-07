@@ -192,8 +192,9 @@ def load_prototype_posts():
             "parking", metadata.get("parking")
         )
         metadata["resolved_dogs"] = resolve_value("dogs", metadata.get("dogs"))
-        metadata["resolved_category"] = resolve_value(
-            "category", metadata.get("category")
+        category = metadata.get("category")
+        metadata["resolved_category"] = (
+            resolve_value("category", category) if category else "Place review"
         )
         metadata["resolved_tags"] = [
             resolve_value("tags", tag) for tag in metadata.get("tags", [])
@@ -237,9 +238,8 @@ def render_place_reviews(environment, posts):
     rendered = 0
     for post in posts:
         if not (
-            post.get("fictional") is True
-            and post.get("review_only") is True
-            and post.get("publication_status") == "review_prototype"
+            post.get("review_only") is True
+            and post.get("publication_status") in {"review", "review_prototype"}
         ):
             continue
         destination = DIST_DIR / "places" / post["slug"] / "index.html"
@@ -247,7 +247,11 @@ def render_place_reviews(environment, posts):
         destination.write_text(
             template.render(
                 site_name=SITE_NAME,
-                title=f"{post['title']} — fictional review | Project Atlas",
+                title=(
+                    f"{post['title']} — fictional review | Project Atlas"
+                    if post.get("fictional") is True
+                    else f"{post['title']} — review only | Project Atlas"
+                ),
                 description=post["summary"],
                 robots="noindex, nofollow",
                 canonical="",
@@ -302,7 +306,7 @@ def build_site():
     write_robots()
     write_sitemap()
     print(
-        f"Built {len(PAGES)} shell pages and {review_count} fictional "
+        f"Built {len(PAGES)} shell pages and {review_count} protected "
         f"review Place pages in {DIST_DIR}."
     )
 

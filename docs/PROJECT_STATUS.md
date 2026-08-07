@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Private Media Intake Foundation V1 |
-| Status | Implemented locally; awaiting final verification and Rik's review |
-| Objective | Safely turn one Rik-selected private still image into reviewed public-safe responsive derivatives without Google Drive access or publication. |
+| Phase | Controlled Real-Photograph Validation Preparation |
+| Status | Genuine private Open Visit and matching public-safe Bluebell Wood review record created and ID-verified |
+| Objective | Keep publication unapproved and begin the controlled hero-photo test with a dry-run only. |
 
 ---
 
@@ -133,18 +133,18 @@ It provides a single source of truth for current progress, active work and the n
 - The Google Sheets checkpoint authenticates Rik through a private local
   desktop OAuth flow and performs structural read-only checks only.
 - OAuth client configuration, tokens and Sheet identifiers remain outside Git.
-- The real Sheet is read-only to Atlas; no response has been imported.
+- The real Sheet remains read-only to Atlas. One Rik-selected response has been
+  persisted through the hardened importer to private storage outside Git.
 - Discovery reports only total, processed and pending counts plus opaque Atlas
   response IDs.
 - Importing one response requires explicit selection. Append still requires an
   explicit existing Visit ID; similar or identical rows are never merged
   automatically.
-- Rik explicitly classified response #3's deliberately fictional uploaded
-  evidence as `photo`.
-- Live response #3 passed hardened importer validation in dry-run mode and
-  proposed one `Open` Visit with exactly one form-response note and one photo.
-- Response #3 remains pending. No real response has been persisted to a Visit
-  store or private importer mapping.
+- Rik explicitly selected the later genuine Bluebell Wood response and
+  classified its single uploaded-media reference as `photo`.
+- That response passed hardened-importer dry-run validation and was then
+  persisted with separate explicit approval as one genuine private `Open`
+  Visit, its private mapping and processed-response state.
 - The fictional Place pages are uncommitted review prototypes, remain
   `noindex, nofollow`, have no canonical URLs and are excluded from the
   sitemap.
@@ -180,6 +180,14 @@ It provides a single source of truth for current progress, active work and the n
 - One generated fictional image demonstrates a Glasshouse Gardens hero with
   complete `src`, `srcset`, `sizes`, `width`, `height` and approved test alt
   text while retaining every review-only indexing protection.
+- The first genuine private `Open` Visit is persisted outside Git with its
+  private importer mapping and processed-response state.
+- A genuine Bluebell Wood Place source now uses the Visit's exact opaque Place
+  association and only Rik-approved public-safe categories. Its local page is
+  review-only, `noindex, nofollow`, canonical-free, sitemap-excluded and not
+  approved for publication.
+- The associated photograph remains private, uninspected and unprocessed. No
+  media has been associated with the review Place.
 
 ## Approved V1 Media Boundary
 
@@ -205,6 +213,25 @@ It provides a single source of truth for current progress, active work and the n
 - Alt text is primarily an accessibility description, not a keyword-stuffing
   field. Future AI may propose alt text, but Rik must review and approve it.
 
+## Primary Place Image Policy
+
+- Every publishable Place will have one explicitly selected primary or hero
+  image.
+- Rik selects the primary image. Atlas must not randomly choose, rotate, infer
+  or automatically replace it.
+- The primary image is the Place-page hero and, by default, the image that
+  represents the Place on Places listings and cards.
+- The same approved underlying image may be reused in different layouts through
+  appropriately sized derivatives. It should not be displayed unnecessarily as
+  separate duplicate content on the same Place page.
+- Additional approved photographs will later receive deliberate editorial
+  placement and ordering. Gallery behaviour remains outside the current V1
+  media-foundation checkpoint.
+- Alt text remains contextual, accessibility-first and Rik-reviewed.
+- Responsive candidate widths, candidate count and WebP quality remain
+  provisional until the final Place template and representative real
+  photographs have been assessed.
+
 ## Deferred Place Review Requirements
 
 - Rik's first impression of the Place-page direction is positive.
@@ -219,16 +246,12 @@ It provides a single source of truth for current progress, active work and the n
 
 ## Next Tasks
 
-1. Review the uncommitted Private Media Intake Foundation and fictional hero
-   demonstration.
-2. Decide whether the engine and operator workflow are approved.
-3. Decide whether response #3 should be imported permanently; it remains
-   pending until Rik explicitly approves persistence.
-4. Continue the Place visual review; breadcrumb, structured-data, tag and
-   filtering refinements remain deferred.
-5. Keep the admin web UI, galleries, replacement workflow, video, audio, HEIC,
-   AI and publication outside this milestone.
-6. Commit and push only after separate approvals.
+1. Keep the selected original outside Git and chat and begin the controlled
+   Bluebell Wood hero-image validation with media-intake dry-run only.
+2. If the dry-run is approved, create private preview derivatives outside the
+   repository for visual and file-size comparison before any apply decision.
+3. Keep the admin web UI, galleries, Drive integration, replacement workflow,
+   video, audio, HEIC, AI and publication outside this checkpoint.
 
 No subsequent implementation milestone is authorised.
 
@@ -386,6 +409,6 @@ This file should be updated at the end of every significant development session 
 
 Constitution Version: 1.0
 
-Implementation Status: Prior Sheets bridge and fictional Place prototypes committed; uncommitted Private Media Intake Foundation implemented and awaiting review
+Implementation Status: Private Media Intake Foundation committed as 64c87af; genuine private Open Visit and matching Bluebell Wood review record created and association-verified, with publication unapproved
 
-Current Milestone: Private Media Intake Foundation V1
+Current Milestone: Controlled Real-Photograph Validation Preparation

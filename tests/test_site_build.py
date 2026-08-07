@@ -11,6 +11,7 @@ import build
 ROOT = Path(__file__).parent.parent
 DIST = ROOT / "dist"
 REVIEW_SLUGS = (
+    "bluebell-wood",
     "willowmere-loop",
     "glasshouse-gardens",
     "lantern-quay",
@@ -22,7 +23,7 @@ class FictionalPlaceBuildTests(unittest.TestCase):
     def setUpClass(cls):
         build.build_site()
 
-    def test_three_fictional_place_reviews_are_built(self):
+    def test_four_protected_place_reviews_are_built(self):
         for slug in REVIEW_SLUGS:
             with self.subTest(slug=slug):
                 self.assertTrue((DIST / "places" / slug / "index.html").is_file())
@@ -36,10 +37,16 @@ class FictionalPlaceBuildTests(unittest.TestCase):
                 self.assertIn(
                     '<meta name="robots" content="noindex, nofollow">', page
                 )
-                self.assertIn(
-                    "Fictional · review only · not approved for publication",
-                    page,
-                )
+                if slug == "bluebell-wood":
+                    self.assertIn(
+                        "Genuine visit · review only · not approved for publication",
+                        page,
+                    )
+                else:
+                    self.assertIn(
+                        "Fictional · review only · not approved for publication",
+                        page,
+                    )
                 self.assertNotIn("rel=\"canonical\"", page)
 
     def test_review_pages_are_excluded_from_sitemap(self):
@@ -79,6 +86,16 @@ class FictionalPlaceBuildTests(unittest.TestCase):
         for path in variants:
             with self.subTest(path=path.name), Image.open(path) as image:
                 self.assertEqual(len(image.getexif()), 0)
+
+    def test_genuine_review_keeps_private_evidence_out_of_public_output(self):
+        page = (DIST / "places" / "bluebell-wood" / "index.html").read_text(
+            encoding="utf-8"
+        )
+        self.assertNotIn("drive.google.com", page)
+        self.assertNotIn("docs.google.com", page)
+        self.assertNotIn("RSP-", page)
+        self.assertNotIn("EVD-", page)
+        self.assertNotIn("hero_image", page)
 
 
 if __name__ == "__main__":
