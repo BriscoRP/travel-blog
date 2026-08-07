@@ -230,6 +230,35 @@ def render_pages(environment, posts):
         )
 
 
+def render_place_reviews(environment, posts):
+    """Render explicitly fictional, review-only Place prototypes."""
+    template = environment.get_template("place.html")
+    rendered = 0
+    for post in posts:
+        if not (
+            post.get("fictional") is True
+            and post.get("review_only") is True
+            and post.get("publication_status") == "review_prototype"
+        ):
+            continue
+        destination = DIST_DIR / "places" / post["slug"] / "index.html"
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(
+            template.render(
+                site_name=SITE_NAME,
+                title=f"{post['title']} — fictional review | Project Atlas",
+                description=post["summary"],
+                robots="noindex, nofollow",
+                canonical="",
+                current="places",
+                post=post,
+            ),
+            encoding="utf-8",
+        )
+        rendered += 1
+    return rendered
+
+
 def copy_assets():
     ASSET_DIR.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(STYLE_DIR / "site.css", ASSET_DIR / "site.css")
@@ -266,9 +295,13 @@ def build_site():
     copy_assets()
     posts = load_prototype_posts()
     render_pages(environment, posts)
+    review_count = render_place_reviews(environment, posts)
     write_robots()
     write_sitemap()
-    print(f"Built {len(PAGES)} public pages in {DIST_DIR}.")
+    print(
+        f"Built {len(PAGES)} shell pages and {review_count} fictional "
+        f"review Place pages in {DIST_DIR}."
+    )
 
 
 if __name__ == "__main__":

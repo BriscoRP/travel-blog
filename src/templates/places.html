@@ -3,14 +3,34 @@
 {% block content %}
 <header class="page-hero">
     <div class="shell narrow">
-        <p class="eyebrow">The collection</p>
-        <h1>Places</h1>
-        <p class="lead">This will be the home of carefully reviewed guides to places our family has genuinely visited.</p>
+        <p class="eyebrow">Visual review collection</p>
+        <h1>Fictional Place prototypes</h1>
+        <p class="lead">These review-only examples help us assess how future genuine Place guides could look. They are not published travel recommendations.</p>
     </div>
 </header>
 
 <section class="section compact-top" aria-labelledby="empty-heading">
-    <div class="shell narrow">
+    <div class="shell">
+{% if posts %}
+        <div class="review-warning" role="note">
+            <strong>Fictional review material</strong>
+            <span>Every Place below was created solely for layout and usability review. No production publication has been approved.</span>
+        </div>
+        <div class="place-grid">
+{% for post in posts if post.fictional and post.review_only and post.publication_status == 'review_prototype' %}
+            <article class="place-card">
+                <p class="eyebrow">{{ post.review_variant }}</p>
+                <h2><a href="/places/{{ post.slug }}/">{{ post.title }}</a></h2>
+                <p>{{ post.summary }}</p>
+                <dl class="mini-facts">
+                    <div><dt>Fictional setting</dt><dd>{{ post.location }}</dd></div>
+                    <div><dt>Review focus</dt><dd>{{ post.review_focus }}</dd></div>
+                </dl>
+                <a class="text-link" href="/places/{{ post.slug }}/">Review this prototype <span aria-hidden="true">→</span></a>
+            </article>
+{% endfor %}
+        </div>
+{% else %}
         <div class="empty-state">
             <span class="empty-mark" aria-hidden="true">01</span>
             <h2 id="empty-heading">No Place stories are published yet.</h2>
@@ -20,6 +40,7 @@
                 <a class="button button-secondary" href="/how-we-create-our-guides/">How we create our guides</a>
             </div>
         </div>
+{% endif %}
     </div>
 </section>
 

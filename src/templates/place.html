@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="place-hero">
+    <div class="shell">
+        <div class="review-badge">Fictional · review only · not approved for publication</div>
+        <p class="eyebrow">{{ post.resolved_category }}</p>
+        <h1>{{ post.title }}</h1>
+        <p class="lead">{{ post.summary }}</p>
+        <p class="place-location">{{ post.location }}</p>
+    </div>
+</header>
+
+<article>
+    <section class="section compact-top">
+        <div class="shell place-layout">
+            <div class="place-story">
+                <p class="eyebrow">Fictional visit story</p>
+                {{ post.body|safe }}
+            </div>
+            <aside class="fact-panel" aria-labelledby="visit-facts">
+                <h2 id="visit-facts">At a glance</h2>
+                <dl class="fact-list">
+                    <div><dt>Visit date</dt><dd>{{ post.visit_date }}</dd></div>
+                    <div><dt>Terrain</dt><dd>{{ post.terrain }}</dd></div>
+                    <div><dt>Parking observed</dt><dd>{{ post.parking_observation }}</dd></div>
+                    <div><dt>Toilets observed</dt><dd>{{ post.toilets_observation }}</dd></div>
+                    <div><dt>Recommended?</dt><dd>{{ post.recommendation }}</dd></div>
+                </dl>
+                <p class="observation-note">All details on this prototype are invented for visual review and must not be treated as visitor information.</p>
+            </aside>
+        </div>
+    </section>
+
+    <section class="section section-tinted">
+        <div class="shell article-grid">
+            <div>
+                <p class="eyebrow">Access review</p>
+                <h2>What might help visitors plan.</h2>
+            </div>
+            <div class="prose">
+                <p>{{ post.accessibility_observation }}</p>
+                <p class="observation-note">A production guide would present this as a dated first-hand observation and link to approved official information where needed.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="shell callout">
+            <div>
+                <p class="eyebrow">Prototype navigation</p>
+                <h2>Compare the other fictional Place layouts.</h2>
+            </div>
+            <a class="button button-secondary" href="/places/">Back to fictional Places</a>
+        </div>
+    </section>
+</article>
+{% endblock %}

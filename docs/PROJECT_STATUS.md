@@ -9,7 +9,7 @@ status: Active
 owner: Rik Powell
 
 created: 2026-08-02
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 
 updated_every_session: true
 codex_maintained: true
@@ -30,9 +30,9 @@ It provides a single source of truth for current progress, active work and the n
 
 | Property | Value |
 |----------|-------|
-| Phase | Read-only Google Sheets Connection Checkpoint |
-| Status | Live connection proven; awaiting Rik's review |
-| Objective | Verify secure read-only access to the private Atlas Test V1 response Sheet without importing a response. |
+| Phase | Sheets-to-Importer Integration and Place Visual Review |
+| Status | Implemented and verified locally; awaiting Rik's review |
+| Objective | Review the private Google response bridge and fictional Place-page prototypes without importing or publishing real content. |
 
 ---
 
@@ -97,6 +97,19 @@ It provides a single source of truth for current progress, active work and the n
 - All 13 response headings recognised and the response-row count observed
   changing from 2 to 3 after a deliberately fictional Form submission, without
   printing private response values.
+- Read-only Google Sheets Connection checkpoint committed and pushed as
+  `8081208`.
+- Private response discovery implemented with opaque Atlas response IDs and
+  private pending/processed state.
+- Explicit one-response dry-run, create and append bridge implemented through
+  the existing hardened importer.
+- Google response identity bound to importer idempotency so separate identical
+  rows cannot be merged as retries.
+- Sixteen dedicated fictional bridge scenarios implemented without writing to
+  the real Sheet.
+- Three fictional, review-only Place-page prototypes implemented for visual
+  review.
+- Complete automated suite passing with 69 tests.
 
 ---
 
@@ -114,22 +127,74 @@ It provides a single source of truth for current progress, active work and the n
   `VisitStore.save`.
 - Raw form values, private visitor labels and Google provider references remain
   in a separate explicitly private mapping output.
-- There is no Google API, authentication, live connectivity, AI, staging,
-  publication or website behaviour.
+- Google Sheets access is private, owner-operated and read-only. There is no
+  Google Drive access, AI drafting, staging or publication behaviour.
 - The hardened importer is committed and present on `origin/main`.
 - The Google Sheets checkpoint authenticates Rik through a private local
   desktop OAuth flow and performs structural read-only checks only.
 - OAuth client configuration, tokens and Sheet identifiers remain outside Git.
 - The real Sheet is read-only to Atlas; no response has been imported.
+- Discovery reports only total, processed and pending counts plus opaque Atlas
+  response IDs.
+- Importing one response requires explicit selection. Append still requires an
+  explicit existing Visit ID; similar or identical rows are never merged
+  automatically.
+- Rik explicitly classified response #3's deliberately fictional uploaded
+  evidence as `photo`.
+- Live response #3 passed hardened importer validation in dry-run mode and
+  proposed one `Open` Visit with exactly one form-response note and one photo.
+- Response #3 remains pending. No real response has been persisted to a Visit
+  store or private importer mapping.
+- The fictional Place pages are uncommitted review prototypes, remain
+  `noindex, nofollow`, have no canonical URLs and are excluded from the
+  sitemap.
+
+## Approved V1 Media Boundary
+
+- Atlas will not receive broad Google Drive API access merely to automate Form
+  upload retrieval. No additional Google OAuth scope is approved.
+- Google Sheets remains read-only using the already-approved
+  `spreadsheets.readonly` scope.
+- Contributors may continue supplying private original photos, video or audio
+  through convenient private channels, including the existing Google Form,
+  WhatsApp, email and private Google Drive. They do not need to understand
+  Atlas filenames, SEO, identifiers, backend systems or publication workflow.
+- Rik remains the human curation boundary. For V1, Rik manually reviews and
+  selects evidence, then supplies only selected media to a future private Atlas
+  media-intake or administration workflow.
+- That future workflow should select the intended Place and Visit; accept a
+  Rik-selected source image or prepared WebP; validate the file; strip private
+  metadata and EXIF where applicable; generate or validate a web-ready WebP;
+  produce a clean SEO-friendly filename; and place the publishing derivative
+  in the correct project location.
+- Original and private contributor files remain outside public Git. Only a
+  public-safe derivative that Rik has reviewed and approved may enter the
+  website publishing pipeline. Publication is never automatic.
+- Alt text is primarily an accessibility description, not a keyword-stuffing
+  field. Future AI may propose alt text, but Rik must review and approve it.
+
+## Deferred Place Review Requirements
+
+- Rik's first impression of the Place-page direction is positive.
+- Add a visible `HOME > PLACES > [PLACE]` breadcrumb hierarchy.
+- Implement correct `BreadcrumbList` structured data.
+- Give Places useful tags for search and filtering.
+- Keep search and filter result pages `noindex`.
+- These are recorded requirements and placeholders only; implementation awaits
+  a separately approved refinement task.
 
 ---
 
 ## Next Tasks
 
-1. Review the read-only Google Sheets connection checkpoint.
-2. Confirm the OAuth, private-configuration and safe-output boundaries.
-3. Commit and push the checkpoint only after Rik's separate approvals.
-4. Design the larger Google-to-importer workflow only after separate approval.
+1. Continue Rik's visual review of the three fictional Place prototypes.
+2. Decide whether any Place-page refinements should be authorised.
+3. Review the uncommitted Sheets-to-importer bridge and its fictional tests.
+4. Decide whether response #3 should be imported permanently; it remains
+   pending until Rik explicitly approves persistence.
+5. Plan the private media-intake workflow only as a separately approved task;
+   do not add Google Drive API access or additional Google OAuth scopes.
+6. Commit and push later phases only after separate approvals.
 
 No subsequent implementation milestone is authorised.
 
@@ -224,6 +289,50 @@ This file should be updated at the end of every significant development session 
   written to it.
 - A future real-world validation will use a new submission made through the
   actual Atlas Test V1 Google Form.
+- Committed and pushed the approved Google Read-Only Connection checkpoint as
+  `8081208`.
+- Implemented private opaque response discovery and explicit selected-response
+  bridging into the hardened importer.
+- Kept pending/processed state outside Google and outside public Git.
+- Verified that standalone CSV and Google-origin idempotency remain distinct,
+  including separate identical Google rows.
+- Exercised 16 fictional bridge scenarios and 12-response discovery using only
+  simulated sources and temporary private stores.
+- Rik explicitly classified response #3's deliberately fictional uploaded
+  evidence as `photo`.
+- Completed the approved live response #3 dry-run through the hardened
+  importer. It proposed one `Open` Visit containing one form-response note and
+  one photo.
+- Persisted nothing from the dry-run; response #3 remains pending.
+- Proved the live Form to Sheet to Atlas to hardened-importer dry-run path
+  end-to-end.
+- Kept Google Sheets read-only and deliberately deferred Drive metadata,
+  download and automated evidence retrieval pending permission-model review.
+- Created three explicitly fictional Place-page review prototypes for standard,
+  richer and practical/accessibility-focused layouts.
+- Preserved `noindex, nofollow`, sitemap exclusion and the human publication
+  boundary.
+- Verified the complete work with 69 passing tests.
+
+### 2026-08-07
+
+- Locked the day's planning estimates at Goal 1 90%, Goal 2 85%, Goal 3 75%
+  and approximately 61% overall V1 live readiness; estimates increase only
+  when real capability or an agreed milestone advances.
+- Rik's first visual impression of the fictional Place-page direction was
+  positive.
+- Recorded breadcrumbs, `BreadcrumbList` structured data, Place tags and
+  `noindex` search/filter results as deferred requirements, without
+  implementation.
+- Decided that V1 will not grant broad Google Drive API access merely to
+  automate Form-upload retrieval and will request no additional OAuth scopes.
+- Retained read-only Google Sheets access and the deliberately simple
+  contributor experience across private channels.
+- Established Rik as the manual media-curation boundary before any selected,
+  validated, metadata-safe and approved derivative can enter publishing.
+- Recorded the intended future private image-intake requirements, including
+  Place/Visit selection, validation, metadata stripping, WebP preparation,
+  clean naming and Rik-approved accessibility-focused alt text.
 
 ---
 
@@ -231,6 +340,6 @@ This file should be updated at the end of every significant development session 
 
 Constitution Version: 1.0
 
-Implementation Status: Public website shell, Visit Capture Foundation and hardened importer approved; read-only Google Sheets connection proven and awaiting review
+Implementation Status: Read-only Google connection committed and pushed; uncommitted Sheets-to-importer bridge and fictional Place prototypes implemented and awaiting review
 
-Current Milestone: Read-only Google Sheets Connection Checkpoint
+Current Milestone: Sheets-to-Importer Integration and Fictional Place Visual Review
