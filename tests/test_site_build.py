@@ -12,10 +12,12 @@ ROOT = Path(__file__).parent.parent
 DIST = ROOT / "dist"
 REVIEW_SLUGS = (
     "bluebell-wood",
+    "hadleigh-country-park",
     "willowmere-loop",
     "glasshouse-gardens",
     "lantern-quay",
 )
+GENUINE_REVIEW_SLUGS = {"bluebell-wood", "hadleigh-country-park"}
 
 
 class FictionalPlaceBuildTests(unittest.TestCase):
@@ -23,7 +25,7 @@ class FictionalPlaceBuildTests(unittest.TestCase):
     def setUpClass(cls):
         build.build_site()
 
-    def test_four_protected_place_reviews_are_built(self):
+    def test_all_protected_place_reviews_are_built(self):
         for slug in REVIEW_SLUGS:
             with self.subTest(slug=slug):
                 self.assertTrue((DIST / "places" / slug / "index.html").is_file())
@@ -37,7 +39,7 @@ class FictionalPlaceBuildTests(unittest.TestCase):
                 self.assertIn(
                     '<meta name="robots" content="noindex, nofollow">', page
                 )
-                if slug == "bluebell-wood":
+                if slug in GENUINE_REVIEW_SLUGS:
                     self.assertIn(
                         "Genuine visit · review only · not approved for publication",
                         page,
@@ -88,14 +90,17 @@ class FictionalPlaceBuildTests(unittest.TestCase):
                 self.assertEqual(len(image.getexif()), 0)
 
     def test_genuine_review_keeps_private_evidence_out_of_public_output(self):
-        page = (DIST / "places" / "bluebell-wood" / "index.html").read_text(
-            encoding="utf-8"
-        )
-        self.assertNotIn("drive.google.com", page)
-        self.assertNotIn("docs.google.com", page)
-        self.assertNotIn("RSP-", page)
-        self.assertNotIn("EVD-", page)
-        self.assertNotIn("hero_image", page)
+        for slug in GENUINE_REVIEW_SLUGS:
+            page = (DIST / "places" / slug / "index.html").read_text(
+                encoding="utf-8"
+            )
+            with self.subTest(slug=slug):
+                self.assertNotIn("drive.google.com", page)
+                self.assertNotIn("docs.google.com", page)
+                self.assertNotIn("RSP-", page)
+                self.assertNotIn("EVD-", page)
+                self.assertNotIn("VIS-", page)
+                self.assertNotIn("hero_image", page)
 
 
 if __name__ == "__main__":
