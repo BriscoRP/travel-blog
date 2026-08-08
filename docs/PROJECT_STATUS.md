@@ -31,8 +31,8 @@ It provides a single source of truth for current progress, active work and the n
 | Property | Value |
 |----------|-------|
 | Phase | Local Operator Workflow Preparation |
-| Status | 7 August goals completed; genuine contribution-to-review path proven and committed |
-| Objective | Use the next genuine response to observe operator friction before designing the smallest useful local Admin UX. |
+| Status | Hadleigh review content and V1 presentation direction approved; publication and media remain unapproved |
+| Objective | Prepare the approved review checkpoint for a focused commit before any separate media-intake decision. |
 
 ---
 
@@ -214,6 +214,40 @@ It provides a single source of truth for current progress, active work and the n
   intended operating loop is notification, Rik opens local Atlas tooling or a
   future local Admin UX, then explicitly checks and processes pending
   submissions. Cloud polling and automation are outside current V1 scope.
+- On 8 August, a new genuine Google Form submission proved the intended
+  notification and discovery loop: submission succeeded, Google's built-in
+  response email reached Rik, and Atlas discovered the response through the
+  existing Sheets-readonly connection.
+- Rik explicitly classified all five uploaded-file references as photos. The
+  selected response passed the hardened importer in dry-run as a proposed new
+  `Open` Visit containing one response-note item and five photo evidence items.
+  Rik then explicitly selected new Place plus new Visit and approved private
+  persistence. Exactly one new `Open` Visit and one private importer mapping
+  were created, the response was marked processed, and repeat retrieval proved
+  idempotent without creating a duplicate.
+- Atlas did not inspect or download the Drive files and did not access Rik's
+  privately downloaded photographs. The next required operator decision is
+  whether this submission represents a new Place or another Visit associated
+  with an existing Place; Atlas must not infer that decision.
+- Rik found it practical to open the Form upload folder and download the
+  submitted media as a batch. No Drive API or Atlas Drive integration is
+  currently required for V1.
+- Genuine local originals, including files around 4-5 MB, can be supplied later
+  to the private curated media-intake workflow. Rik should not manually resize
+  or compress them; Atlas should create validated public-safe WebP derivatives
+  under the eventually approved presentation profile.
+- Rik approved creation of a public-safe review-only Place record for the new
+  genuine Place. Atlas privately verified that the persisted `Open` Visit
+  belongs to the approved stable Place identity before creating the source.
+- The Hadleigh Country Park review uses only Rik-approved categories: Place
+  name, broad location, Visit date, Visit description, visiting advice,
+  parking, toilet and accessibility observations, and recommendation.
+- The record is genuine but explicitly unapproved, `noindex, nofollow`,
+  canonical-free and sitemap-excluded. It has no hero, gallery or media
+  association, and its private Visit identity is absent from source and output.
+- Rik visually and editorially approved the Hadleigh review as accurate
+  public-safe content and an acceptable V1 presentation direction. This is not
+  publication approval; detailed design and layout remain deferred.
 
 ## End-of-Day Assessment — 7 August 2026
 
@@ -271,6 +305,66 @@ does not mean Project Atlas itself is complete.
   will be reviewed against the approved Place template, representative images,
   Lighthouse and Core Web Vitals.
 
+## Approved Long-Term Media UX Direction
+
+This section records product and architectural direction only. Gallery,
+slideshow, photo-wall and broader Admin implementation remain deferred.
+
+- The intended operator flow preserves explicit Rik decisions from response
+  review through Visit and Place association, local photo selection, primary
+  image selection, additional-photo ordering, accessible descriptions,
+  derivative creation, preview and separate publication approval.
+- A publishable Place has one explicitly selected primary image. The same
+  approved underlying asset represents the Place as its hero and, by default,
+  on `/places/` cards through presentation-appropriate derivatives. Atlas never
+  chooses, rotates or replaces it automatically.
+- A Place may own several approved public photographs. The eventual operator
+  UX should support local multi-image intake, thumbnails, include/exclude,
+  primary-image selection, explicit Place-level ordering, alt-text review,
+  independently editable optional captions and preview before apply or
+  publication. Intake order may be the default; EXIF chronology must not
+  control editorial order.
+- Alt text remains accessibility-first and Rik-reviewed. A concise reviewed
+  description may initially seed both alt text and a visible caption, but the
+  fields must be capable of diverging. Neither should be keyword-stuffed.
+- A future accessible Place gallery or lightbox should serve mobile use and
+  occasional large-screen family viewing, with concise captions and controls
+  that do not depend solely on touch or swiping. No library is selected.
+- A future image-led `/photos/` discovery surface may show approved public
+  photographs and connect them to their Places. It is explicitly outside the
+  current V1 operator milestone.
+- Public media must be capable of supporting stable asset identity, owning
+  Place, primary status, explicit display order, responsive derivatives,
+  reviewed alt text, an optional independent caption and public-safe credit or
+  provenance if later required. Private Visit IDs and private provenance stay
+  behind the private boundary.
+- The current 480/800/1200 widths and WebP quality 82 remain provisional. Final
+  profiles follow approved hero, card and gallery layouts and representative
+  testing across mobile, high-DPR, bandwidth, Lighthouse, Core Web Vitals and
+  occasional large screens. Private 4-5 MB originals are acceptable when
+  intake safeguards pass; public visitors receive processed derivatives only.
+
+## Three-Way Incoming Response Decision
+
+For every genuine incoming submission, Rik explicitly selects one operation:
+
+1. **New Place + new Visit** — create a new stable Place identity and its first
+   private Visit.
+2. **New Visit to existing Place** — create a genuinely new Visit associated
+   with the existing stable Place identity and canonical page.
+3. **Append to existing Visit** — add later information, memories or evidence
+   relating to the same Visit.
+
+Contributors do not need to understand Atlas IDs or choose relationships in the
+Google Form. Atlas must never merge or match using place name, location, text
+similarity, photographs or AI.
+
+Operations 1 and 3 have genuine operational evidence. Operation 2 is
+implemented by accepting an explicit existing Place ID for a new Visit and has
+fictional automated importer coverage, but it has not yet been proven with a
+genuine live submission. This is an operational-proof gap, not a missing
+importer capability; no additional implementation is authorised here.
+
 ## Deferred Place Review Requirements
 
 - Rik's first impression of the Place-page direction is positive.
@@ -298,20 +392,21 @@ does not mean Project Atlas itself is complete.
 
 ## Next Tasks
 
-1. Begin the next session with Rik's Daily Stand-Up and explicitly declare the
-   new Project Atlas session.
-2. If M & G submit a genuine new outing response, use it as the next operational
-   test instead of manufacturing another submission where practical.
-3. Confirm Rik receives the Google notification and Atlas discovers the new
-   response through the existing read-only Sheet connection.
-4. Observe operator friction, then design the smallest useful local Admin UX
-   for explicit response review, Visit create/append, Place association,
-   selected-photo intake, hero and alt-text approval, preview and apply.
-5. Keep publication/deployment separately approved and defer final visual and
-   SEO refinement until the operational workflow is comfortable.
-
-No further feature implementation is authorised in the 7 August session. The
-next session begins with real operational evidence and a fresh approval boundary.
+1. Review and approve the smallest sensible commit grouping for today's
+   genuine operational, review-content and documentation checkpoint.
+2. Keep the genuine Visit, mapping, provider references and local photographs
+   private until a separately approved media-intake checkpoint.
+3. Use today's completed genuine operator evidence to design the smallest
+   useful local Admin UX for explicit response review, Visit create/append, Place
+   association, selected-photo intake, hero and alt-text approval, preview and
+   apply.
+4. Ensure that design presents the explicit three-way response decision without
+   asking contributors to understand internal IDs or relationships.
+5. Keep galleries, slideshows, the photo wall, Drive integration, publication
+   and deployment outside the current implementation scope.
+6. Keep publication/deployment separately approved and defer final visual,
+   image-profile and SEO refinement until the operational workflow is
+   comfortable.
 
 ---
 
@@ -482,12 +577,50 @@ This file should be updated at the end of every significant development session 
 - Closed all three 7 August goals at 100% of their intended daily scope and set
   the planning estimate for overall V1 live readiness to approximately 75%.
 
+### 2026-08-08
+
+- Proved a genuine Google Form submission, built-in email notification and
+  opaque Atlas discovery through the existing Sheets-readonly connection.
+- Validated the explicitly selected response through the hardened importer in
+  dry-run using Rik's classification of all five upload references as photos.
+- Proposed one new `Open` Visit with one response-note item and five photo
+  evidence items; the response remained pending and no Visit or importer
+  mapping was persisted.
+- Recorded that Rik can practically batch-download submitted media privately,
+  so V1 currently needs no Drive API or additional Google scope.
+- Recorded that Atlas, rather than Rik, should later validate genuine local
+  originals and generate responsive public-safe derivatives.
+- Recorded the approved deferred media UX direction for primary image reuse,
+  ordered multi-photo Places, distinct alt text and captions, future accessible
+  gallery/large-screen use and a possible future photo discovery surface.
+- The dry-run established new Place versus existing Place as the next explicit
+  decision; no automatic Place matching was permitted.
+- Rik explicitly selected new Place plus new Visit. Atlas persisted exactly one
+  new private `Open` Visit, one private mapping and the existing six-item
+  evidence structure, then marked the selected response processed.
+- Repeat retrieval returned the same Visit and Place identities without
+  creating another Visit or mapping.
+- Recorded the explicit three-way operator decision: new Place plus new Visit,
+  new Visit to an existing Place, or append to an existing Visit.
+- Confirmed that new Visit to existing Place is implemented and fictionally
+  tested, but remains unproven through a genuine live submission.
+- Privately verified the new Visit-to-Place association and created the genuine
+  Hadleigh Country Park review record from only the approved public-safe
+  categories.
+- Kept the new review explicitly unapproved, canonical-free,
+  `noindex, nofollow`, sitemap-excluded and free of all media associations and
+  private Visit/provider information.
+- Built five protected Place reviews and passed the complete 91-test suite.
+- Rik visually and editorially approved the Hadleigh review content and V1
+  presentation direction as accurate and public-safe. Publication approval,
+  detailed design and media processing remain explicitly deferred.
+
 ---
 
 ## Version
 
 Constitution Version: 1.0
 
-Implementation Status: Genuine Form-to-private-Visit-to-public-safe-review path proven and committed; local Admin UX not yet implemented and publication remains unapproved
+Implementation Status: Baseline genuine path committed; Hadleigh operational and protected-review checkpoint verified but uncommitted; local Admin UX not implemented and publication remains unapproved
 
 Current Milestone: Local Operator Workflow Preparation
